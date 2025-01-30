@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Assignments</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .assignment { border-bottom: 1px solid #ddd; padding: 10px 0; }
+        .title { font-size: 18px; font-weight: bold; }
+        .meta { color: #555; font-size: 14px; }
+        .complete { color: green; font-weight: bold; }
+        .incomplete { color: red; font-weight: bold; }
+        button { padding: 10px; margin-top: 20px; cursor: pointer; }
+        #last-updated { margin-top: 10px; font-size: 14px; color: gray; }
+    </style>
+</head>
+<body>
+    <h1>UVA Dashboard</h1>
+    <button onclick="refreshAssignments()">🔄 Reload Assignments</button>
+    <div id="last-updated">Last Updated: Not yet updated</div>
+    <div id="assignments-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
