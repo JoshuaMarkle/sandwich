@@ -8,7 +8,8 @@
 		"https://www.gradescope.com/*"
 	],
 	"background": {
-		"scripts": ["scripts/background.js"]
+		"scripts": ["scripts/background.js"],
+		"type": "module"
 	},
 	"content_scripts": [
 		{

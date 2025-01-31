@@ -1,21 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UVA Dashboard</title>
-		<meta name="description" content="UVA Assignment Dashboard" />
-		<meta name="author" content="Joshua Markle" />
-		<!-- <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico" /> -->
-		<!-- <link rel="stylesheet" href="css/main.css" /> -->
+		<link rel="stylesheet" href="main.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"/>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<!-- Main Content -->
-		<div class="content">
-			<h1>UVA Dashboard</h1>
+		<h2>UVA Dashboard</h2>
+		<div class="section">
+			<div class="row">
+				<button id="dashboard"><i class="fa fa-home"></i> Dashboard</button>
+				<button id="refresh"><i class="fa fa-refresh"></i> Refresh</button>
+			</div>
+			<h3>Recent Assignments</h3>
+			<div class="scrollable">
+				<div id="gradescope-assignments">Loading...</div>
+				<div id="canvas-assignments">Loading...</div>
+			</div>
 		</div>
+		<script src="scripts/dashboard.js"></script>
 	</body>
 </html>
-
