@@ -1,0 +1,29 @@
+{
+	"manifest_version": 3,
+	"name": "UVA Dashboard",
+	"description": "Fetch canvas and gradescope assignments.",
+	"version": "1.0",
+	"permissions": ["storage", "alarms", "activeTab", "tabs", "scripting", "webRequest"],
+	"host_permissions": [
+		"https://www.gradescope.com/*"
+	],
+	"background": {
+		"scripts": ["scripts/background.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://canvas.its.virginia.edu/*"],
+			"js": ["scripts/content.js"],
+			"run_at": "document_start"
+		}
+	],
+	"options_page": "index.html",
+	"action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "icon.png",
+			"48": "icon.png",
+			"128": "icon.png"
+		}
+	}
+}

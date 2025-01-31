@@ -72,7 +72,7 @@ async function fetchGradescopeAssignments() {
         }
 
 		// Save gradescope assignments to extension storage
-		chrome.storage.local.set({ "gradescopeAssignments": assignments }, () => {
+		browser.storage.local.set({ "gradescopeAssignments": assignments }, () => {
 			console.log("[Dashboard Extension] Update gradescope assignments");
 		});
 
@@ -87,8 +87,8 @@ async function fetchGradescopeAssignments() {
 fetchGradescopeAssignments();
 
 // Refresh assignments every 10 minutes
-chrome.alarms.create("refreshAssignments", { periodInMinutes: 10 });
-chrome.alarms.onAlarm.addListener((alarm) => {
+browser.alarms.create("refreshAssignments", { periodInMinutes: 10 });
+browser.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "refreshAssignments") {
         fetchGradescopeAssignments();
     }
