@@ -1,0 +1,129 @@
+:root {
+    --black: #1b1f23;
+    --bg-dark: #1f2428;
+    --bg: #24292e;
+    --bg-2: #2f363d;
+    --bg-3: #444d56;
+    --bg-4: #586069;
+    --fg: #e1e4e8;
+    --fg-2: #959da5;
+    --fg-3: #444d56;
+    --highlight: #586069;
+    --border: #1b1f23;
+    --red: #f97583;
+    --red-2: #ea4a5a;
+    --orange: #ffab70;
+    --orange-2: #ffab70;
+    --green: #85e89d;
+    --green-2: #34d058;
+    --cyan: #79b8ff;
+    --cyan-2: #79b8ff;
+    --blue: #79b8ff;
+    --blue-2: #0366d6;
+    --blue-3: #005cc5;
+    --purple: #b392f0;
+    --purple-2: #b392f0;
+    --fade: #0005;
+
+    --border-radius: 5px;
+    --margin: 20px;
+    --padding: 10px;
+    --padding-2: 6px 8px;
+    --padding-3: 0.5rem;
+}
+
+/* Generic */
+
+html,
+body {
+    color: var(--fg);
+    background: var(--bg-dark);
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+i { color: var(--fg); }
+
+button {
+    background: var(--bg-3);
+    color: var(--fg);
+    padding: 6px 8px;
+    cursor: pointer;
+    font-family: inherit;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+}
+
+/* Popup */
+
+.popup {
+	width: 300px;
+	display: flex;
+    flex-direction: column;
+    gap: var(--margin-2);
+    background: var(--bg);
+    border: 2px solid var(--border);
+	margin: 0px;
+    padding: 0px;
+	overflow: hidden;
+}
+
+.popup-highlight {
+	display: flex;
+    flex-direction: column;
+	background: var(--bg-2);
+	padding: 10px;
+}
+
+.popup-section {
+	display: flex;
+    flex-direction: column;
+	padding: 10px;
+}
+
+.popup-scrollable {
+	overflow-y: auto;
+	max-height: 200px;
+}
+
+.popup-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: 10px;
+}
+
+.popup h2 { text-align: center; }
+
+/* Assignments */
+
+.assignment {
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid var(--border);
+	border-radius: 5px;
+}
+
+.complete {
+	color: var(--green);
+}
+
+.incomplete {
+	color: var(--red);
+}

@@ -17,7 +17,7 @@
 			"run_at": "document_start"
 		}
 	],
-	"options_page": "index.html",
+	"options_page": "dashboard.html",
 	"action": {
 		"default_popup": "popup.html",
 		"default_icon": {

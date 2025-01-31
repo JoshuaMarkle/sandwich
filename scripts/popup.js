@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const gradescopeDiv = document.getElementById("gradescope-assignments");
     const canvasDiv = document.getElementById("canvas-assignments");
     const refreshButton = document.getElementById("refresh");
+    const dashboardButton = document.getElementById("dashboard");
 
     // Function to display assignments
     function displayAssignments(assignments, container) {
@@ -56,5 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 displayAssignments(data.canvasAssignments, canvasDiv);
             });
         }, 3000); // Wait 3 seconds before refreshing UI
+    });
+
+	// Go to dashboard
+    dashboardButton.addEventListener("click", function () {
+		const url = browser.runtime.getURL("dashboard.html");
+		browser.tabs.create({ url });
     });
 });

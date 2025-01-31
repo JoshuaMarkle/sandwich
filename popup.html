@@ -1,36 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UVA Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            width: 300px;
-            padding: 10px;
-        }
-        .assignment {
-            margin-bottom: 10px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .complete {
-            color: green;
-        }
-        .incomplete {
-            color: red;
-        }
-    </style>
-</head>
-<body>
-    <h2>UVA Dashboard</h2>
-    <button id="refresh">Refresh Assignments</button>
-    <h3>Gradescope Assignments</h3>
-    <div id="gradescope-assignments">Loading...</div>
-    <h3>Canvas Assignments</h3>
-    <div id="canvas-assignments">Loading...</div>
-    <script src="scripts/popup.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>UVA Dashboard</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body class="popup">
+		<div class="popup-highlight">
+			<h2>UVA Dashboard</h2>
+		</div>
+		<div class="popup-section">
+			<div class="popup-row">
+				<button id="dashboard"><i class="fa fa-home"></i> Dashboard</button>
+				<button id="refresh"><i class="fa fa-refresh"></i> Refresh</button>
+			</div>
+			<h3>Recent</h3>
+			<div class="popup-scrollable">
+				<div id="gradescope-assignments">Loading...</div>
+				<div id="canvas-assignments">Loading...</div>
+			</div>
+		</div>
+		<script src="scripts/popup.js"></script>
+	</body>
 </html>
