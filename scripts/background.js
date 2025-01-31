@@ -1,21 +1,59 @@
-// Listen for tab updates to detect when Canvas is opened
-browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (tab.url && tab.url.startsWith("https://canvas.its.virginia.edu")) {
-        console.log("[Dashboard Extension] Canvas tab detected, requesting assignments...");
-        browser.tabs.sendMessage(tabId, { action: "fetchCanvasAssignments" });
-    }
-});
+async function fetchCanvasAssignments() {
+    console.debug("[Background Script] Fetching Canvas assignments...");
 
-// Listen for messages from content.js
-browser.runtime.onMessage.addListener((message, sender) => {
-    if (message.action === "storeCanvasAssignments") {
-        console.log("[Dashboard Extension] Storing Canvas assignments...", message.assignments);
-        browser.storage.local.set({ "canvasAssignments": message.assignments });
+    // Retrieve the Canvas API key from extension storage.
+    // (You may need to provide a UI to let the user store this key.)
+    const { canvasApiKey } = await browser.storage.local.get("canvasApiKey");
+    if (!canvasApiKey) {
+        console.warn("[Background Script] No Canvas API key found!");
+        return [];
     }
-});
+
+    const allowedCourseIds = [131158, 132893, 129569, 131132, 131142, 131827];
+    const headers = {
+        "Authorization": `Bearer ${canvasApiKey}`,
+        "Content-Type": "application/json"
+    };
+
+    let assignments = [];
+
+    try {
+        for (let courseId of allowedCourseIds) {
+            console.debug(`[Background Script] Fetching assignments for course ${courseId}...`);
+            let response = await fetch(`https://canvas.its.virginia.edu/api/v1/courses/${courseId}/assignments`, {
+                method: "GET",
+                headers
+            });
+
+            if (!response.ok) {
+                console.warn(`[Background Script] Skipping course ${courseId}, API response: ${response.status}`);
+                continue;
+            }
+
+            let courseAssignments = await response.json();
+            courseAssignments.forEach(assignment => {
+                assignments.push({
+                    name: assignment.name,
+                    class: `Canvas: ${assignment.course_id}`,
+                    due_date: assignment.due_at ? new Date(assignment.due_at).toLocaleString() : "No Due Date",
+                    complete: assignment.has_submitted_submissions,
+                    link: assignment.html_url
+                });
+            });
+        }
+
+        console.debug("[Background Script] Canvas assignments fetched successfully.");
+        // Save the fetched assignments to extension storage.
+        await browser.storage.local.set({ "canvasAssignments": assignments });
+        return assignments;
+    } catch (error) {
+        console.warn("[Background Script] Error fetching Canvas assignments:", error);
+        return [];
+    }
+}
 
 async function fetchGradescopeAssignments() {
-    console.log("[Dashboard Extension] Fetching Gradescope assignments...");
+    console.debug("[Background Script] Fetching Gradescope assignments...");
 
     const gradescopeLink = "https://www.gradescope.com";
     const courseIds = [940274, 952770, 947696, 947989, 940276];
@@ -24,7 +62,7 @@ async function fetchGradescopeAssignments() {
         let response = await fetch(gradescopeLink, { credentials: "include" });
 
         if (!response.ok) {
-            console.error("[Dashboard Extension] Failed to fetch Gradescope dashboard.");
+            console.error("[Background Script] Failed to fetch Gradescope dashboard.");
             return [];
         }
 
@@ -73,23 +111,25 @@ async function fetchGradescopeAssignments() {
 
 		// Save gradescope assignments to extension storage
 		browser.storage.local.set({ "gradescopeAssignments": assignments }, () => {
-			console.log("[Dashboard Extension] Update gradescope assignments");
+			console.debug("[Background Script] Update gradescope assignments");
 		});
 
 		return
 
     } catch (error) {
-        console.error("[Dashboard Extension] Error fetching Gradescope assignments:", error);
+        console.warn("[Background Script] Error fetching Gradescope assignments:", error);
         return [];
     }
 }
 
 fetchGradescopeAssignments();
+fetchCanvasAssignments();
 
 // Refresh assignments every 10 minutes
 browser.alarms.create("refreshAssignments", { periodInMinutes: 10 });
 browser.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "refreshAssignments") {
         fetchGradescopeAssignments();
+		fetchCanvasAssignments();
     }
 });

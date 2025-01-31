@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("[Popup] Loading assignments...");
+    console.debug("[Dashboard Extension] Loading assignments...");
 
     const gradescopeDiv = document.getElementById("gradescope-assignments");
     const canvasDiv = document.getElementById("canvas-assignments");
@@ -32,19 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
     browser.storage.local.get("gradescopeAssignments").then((data) => {
         displayAssignments(data.gradescopeAssignments, gradescopeDiv);
     }).catch((err) => {
-        console.error("[Popup] ❌ Error loading Gradescope assignments:", err);
+        console.warn("[Dashboard Extension] ❌ Error loading Gradescope assignments:", err);
     });
 
     // Load Canvas assignments
     browser.storage.local.get("canvasAssignments").then((data) => {
         displayAssignments(data.canvasAssignments, canvasDiv);
     }).catch((err) => {
-        console.error("[Popup] ❌ Error loading Canvas assignments:", err);
+        console.warn("[Dashboard Extension] ❌ Error loading Canvas assignments:", err);
     });
 
     // Refresh button to manually fetch assignments
     refreshButton.addEventListener("click", function () {
-        console.log("[Popup] Refreshing assignments...");
+        console.debug("[Dashboard Extension] Refreshing assignments...");
         browser.runtime.sendMessage({ action: "fetchGradescopeAssignments" });
         browser.runtime.sendMessage({ action: "fetchCanvasAssignments" });
 
