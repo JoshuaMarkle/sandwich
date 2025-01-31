@@ -1,18 +1,31 @@
-async function fetchAssignments() {
-    console.log("[Gradescope Extension] Fetching assignments...");
+// Listen for tab updates to detect when Canvas is opened
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (tab.url && tab.url.startsWith("https://canvas.its.virginia.edu")) {
+        console.log("[Dashboard Extension] Canvas tab detected, requesting assignments...");
+        browser.tabs.sendMessage(tabId, { action: "fetchCanvasAssignments" });
+    }
+});
 
-	// General variables
-	const gradescopeLink = "https://www.gradescope.com";
-	const courseIds = [940274, 952770, 947696, 947989, 940276];
+// Listen for messages from content.js
+browser.runtime.onMessage.addListener((message, sender) => {
+    if (message.action === "storeCanvasAssignments") {
+        console.log("[Dashboard Extension] Storing Canvas assignments...", message.assignments);
+        browser.storage.local.set({ "canvasAssignments": message.assignments });
+    }
+});
+
+async function fetchGradescopeAssignments() {
+    console.log("[Dashboard Extension] Fetching Gradescope assignments...");
+
+    const gradescopeLink = "https://www.gradescope.com";
+    const courseIds = [940274, 952770, 947696, 947989, 940276];
 
     try {
-        let response = await fetch(gradescopeLink, {
-            credentials: "include"
-        });
+        let response = await fetch(gradescopeLink, { credentials: "include" });
 
         if (!response.ok) {
-            console.error("[Gradescope Extension] Failed to fetch dashboard.");
-            return;
+            console.error("[Dashboard Extension] Failed to fetch Gradescope dashboard.");
+            return [];
         }
 
         let text = await response.text();
@@ -22,37 +35,20 @@ async function fetchAssignments() {
         let courses = doc.querySelectorAll("a.courseBox");
         let assignments = [];
 
-		console.log("[Gradescope Extension] Successfully authenticated");
-		console.log("[Gradescope Extension] Searching: ", courses);
-
         for (let course of courses) {
             let courseName = course.querySelector("h3.courseBox--shortname").innerText.trim();
             let courseLink = gradescopeLink + course.getAttribute("href");
-			let courseId = parseInt(course.getAttribute("href").replace("/courses/", "").trim());
+            let courseId = parseInt(course.getAttribute("href").replace("/courses/", "").trim());
 
-			let checkForAssignments = false;
-			for (let courseNumber of courseIds) {
-				if (courseNumber === courseId) {
-					checkForAssignments = true;
-					break;
-				}
-			}
-			if (!checkForAssignments) {
-				console.log("skipping ", courseId);
-				continue;
-			}
-			console.log("not skipping ", courseId);
-
-			console.log("[Gradescope Extension] Found course: ", courseName);
-			console.log("[Gradescope Extension] Found link: ", courseLink);
+            if (!courseIds.includes(courseId)) {
+                continue;
+            }
 
             let courseRes = await fetch(courseLink, { credentials: "include" });
             let courseText = await courseRes.text();
             let courseDoc = parser.parseFromString(courseText, "text/html");
 
             let rows = courseDoc.querySelectorAll("tbody tr[role=row]");
-
-			console.log("[Gradescope Extension] Found Assignments: ", rows);
 
             for (let row of rows) {
                 let titleElement = row.querySelector("th a, th button, th");
@@ -75,25 +71,25 @@ async function fetchAssignments() {
             }
         }
 
-        chrome.storage.local.set({ "gradescopeAssignments": assignments }, () => {
-            console.log("[Gradescope Extension] Assignments saved.");
-        });
+		// Save gradescope assignments to extension storage
+		chrome.storage.local.set({ "gradescopeAssignments": assignments }, () => {
+			console.log("[Dashboard Extension] Update gradescope assignments");
+		});
+
+		return
 
     } catch (error) {
-        console.error("[Gradescope Extension] Error:", error);
+        console.error("[Dashboard Extension] Error fetching Gradescope assignments:", error);
+        return [];
     }
 }
 
-// Fetch assignments when the extension starts
-fetchAssignments();
+fetchGradescopeAssignments();
 
 // Refresh assignments every 10 minutes
-chrome.alarms.create("refreshGradescope", { periodInMinutes: 10 });
-
-// Set up alarm listener to fetch assignments periodically
+chrome.alarms.create("refreshAssignments", { periodInMinutes: 10 });
 chrome.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === "refreshGradescope") {
-        fetchAssignments();
+    if (alarm.name === "refreshAssignments") {
+        fetchGradescopeAssignments();
     }
 });
-

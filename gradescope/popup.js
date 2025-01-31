@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    chrome.storage.local.get("gradescopeAssignments", function (data) {
-        let assignments = data.gradescopeAssignments || [];
+    browser.storage.local.get("canvasAssignments", function (data) {
+        let assignments = data.canvasAssignments || [];
         let list = document.getElementById("assignmentList");
 
         if (assignments.length === 0) {
@@ -16,14 +16,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("exportJson").addEventListener("click", function () {
-        chrome.storage.local.get("gradescopeAssignments", function (data) {
-            let json = JSON.stringify(data.gradescopeAssignments, null, 4);
+        browser.storage.local.get("canvasAssignments", function (data) {
+            let json = JSON.stringify(data.canvasAssignments, null, 4);
             let blob = new Blob([json], { type: "application/json" });
             let url = URL.createObjectURL(blob);
 
             let a = document.createElement("a");
             a.href = url;
-            a.download = "gradescope_assignments.json";
+            a.download = "canvas_assignments.json";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

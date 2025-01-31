@@ -1,19 +1,25 @@
 {
-	"manifest_version": 3,
-	"name": "Gradescope Dashboard",
+	"name": "UVA Dashboard",
+	"description": "Fetch assignments from Gradescope and Canvas.",
 	"version": "1.0",
-	"description": "Fetch and display Gradescope assignments.",
-	"permissions": ["storage", "cookies", "activeTab", "alarms", "webRequest"],
-	"host_permissions": ["https://www.gradescope.com/*"],
+	"manifest_version": 2,
+	"permissions": ["storage", "alarms", "activeTab", "tabs", "scripting", "webRequest"],
 	"background": {
 		"scripts": ["background.js"]
 	},
-	"action": {
-		"default_popup": "popup.html",
-		"default_icon": {
-			"16": "icon.png",
-			"48": "icon.png",
-			"128": "icon.png"
+	"content_scripts": [
+		{
+			"matches": ["https://canvas.its.virginia.edu/*"],
+			"js": ["content.js"],
+			"run_at": "document_start"
+		}
+	],
+	"browser_action": {
+		"default_popup": "popup.html"
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "dashboard@joshuamarkle.com"
 		}
 	}
 }
