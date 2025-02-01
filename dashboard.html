@@ -11,17 +11,18 @@
 		<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<h2>UVA Dashboard</h2>
-		<div class="section">
-			<div class="row">
-				<button id="dashboard"><i class="fa fa-home"></i> Dashboard</button>
-				<button id="refresh"><i class="fa fa-refresh"></i> Refresh</button>
+		<header>
+			<h1>UVA Dashboard</h1>
+			<div>
+				<button id="refresh" class="green"><i class="fa fa-refresh"></i> Refresh</button>
+				<button id="settings" class="green"><i class="fa fa-gear"></i> Settings</button>
 			</div>
-			<h3>Recent Assignments</h3>
-			<div class="scrollable">
-				<div id="gradescope-assignments">Loading...</div>
-				<div id="canvas-assignments">Loading...</div>
-			</div>
+		</header>
+		<div class="content">
+			<div id="assignments">Loading...</div>
+			<!-- <div class="summary"> -->
+			<!-- 	<h3>Integrations</h3> -->
+			<!-- </div> -->
 		</div>
 		<script src="scripts/dashboard.js"></script>
 	</body>

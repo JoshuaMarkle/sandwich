@@ -30,7 +30,15 @@
     --fg-2: #777;
     --fg-3: #b3b3b3;
 	--border: #d1d1d1;
-    --fade: #0005;
+    --fade: #0001;
+
+	/* --fg-green: #1d9d74; */
+	--fg-green: #b0ddce;
+	--fg-green-link: #198764;
+	--bg-green-dark: #1b926c;
+	--bg-green: #1fa67a;
+	--bg-green-2: #f1f9f7;
+	--border-green: #e0f1e9;
 }
 
 /* Generic */
@@ -43,7 +51,7 @@ body {
     width: 100%;
     margin: 0;
     font-family: "Roboto", Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 h1, h2, h3 {
@@ -52,7 +60,7 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 3rem;
     margin: 0;
 }
 
@@ -63,19 +71,80 @@ h2 {
 
 h3 {
     font-size: 1.25rem;
-	margin: 1rem 0;
+    margin: 0;
 }
+
+p { margin: 0; }
 
 i { color: var(--fg); }
 
 button {
     background: none;
     color: var(--fg);
-    padding: 6px 8px;
+    padding: 8px 10px;
     cursor: pointer;
     font-family: inherit;
     border: 1px solid var(--border);
     border-radius: 5px;
+}
+
+button.green {
+    color: var(--bg);
+	border: none;
+}
+button.green:hover { color: var(--fg-green); }
+
+button.green i { color: var(--bg); }
+button.green:hover i { color: var(--fg-green); }
+
+button.assignment-button {
+	justify-content: center;
+	width: 100%;
+	border: none;
+	color: var(--fg-2)
+}
+
+button.assignment-button:hover {
+	text-decoration: underline;
+}
+
+header {
+	color: var(--bg);
+	background: var(--bg-green);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 50px 200px 10px 200px;
+	border-bottom: 1px solid var(--border-green);
+}
+
+/* Dashboard */
+
+.content {
+	background: var(--bg);
+	padding: 10px 200px 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.content #assignments {
+	flex: 2;
+}
+
+.content .summary {
+	flex: 1;
+	margin: 0px 10px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+	header,
+	.content { padding-left: 20px; padding-right: 20px }
 }
 
 /* Popup */
@@ -107,8 +176,10 @@ button {
 }
 
 .popup-scrollable {
+	margin-top: 0.5rem;
 	overflow-y: auto;
-	max-height: 200px;
+	max-height: 400px;
+	scrollbar-color: var(--fg-3) var(--fade);
 }
 
 .popup-row {
@@ -139,4 +210,13 @@ button {
 
 .assignment:hover {
 	background: var(--bg-2);
+}
+
+.old-assignment { display: none; }
+
+.breakline {
+	background: none;
+	width: 100%;
+	height: 5px;
+	border-bottom: 1px solid var(--border);
 }

@@ -39,7 +39,7 @@ async function fetchCanvasAssignments() {
                 assignments.push({
                     name: assignment.name,
                     class: `Canvas: ${assignment.course_id}`,
-					due_date: assignment.due_at ? cleanDate(assignment.due_at) : "No Due Date",
+                    due_date: assignment.due_at ? cleanDate(assignment.due_at) : "No Due Date",
                     complete: assignment.has_submitted_submissions,
                     link: assignment.html_url
                 });
@@ -48,7 +48,7 @@ async function fetchCanvasAssignments() {
 
         console.debug("[Background] Canvas assignments fetched successfully.");
 
-        // Save the canvas assignments to extension storage
+        // Save the canvas assignments to extension storage.
         await browser.storage.local.set({ "canvasAssignments": assignments });
 
     } catch (error) {
@@ -99,8 +99,8 @@ async function fetchGradescopeAssignments() {
                 let linkElement = row.querySelector("th.table--primaryLink a");
 
                 let title = titleElement ? titleElement.innerText.trim() : "Unknown";
-				let rawDueDate = dueDateElement ? dueDateElement.innerText.trim() : "No Due Date";
-				let dueDate = rawDueDate !== "No Due Date" ? cleanDate(rawDueDate) : "No Due Date";
+                let rawDueDate = dueDateElement ? dueDateElement.innerText.trim() : "No Due Date";
+                let dueDate = rawDueDate !== "No Due Date" ? cleanDate(rawDueDate) : "No Due Date";
                 let complete = statusElement && statusElement.innerText.trim() !== "No Submission";
                 let link = linkElement ? linkElement.href : courseLink;
 
@@ -114,7 +114,7 @@ async function fetchGradescopeAssignments() {
             }
         }
 
-		// Save gradescope assignments to extension storage
+        // Save gradescope assignments to extension storage.
         await browser.storage.local.set({ "gradescopeAssignments": assignments });
 
     } catch (error) {
@@ -122,13 +122,13 @@ async function fetchGradescopeAssignments() {
     }
 }
 
-// Given an array of assignments, order them by date
+// Given an array of assignments, order them by date.
 function orderAssignments(assignments) {
     return assignments.sort((a, b) => {
         let timeA = new Date(a.due_date).getTime();
         let timeB = new Date(b.due_date).getTime();
 
-        // If the date is invalid, treat it as Infinity (i.e. sort it to the end).
+        // If the date is invalid, treat it as Infinity.
         if (isNaN(timeA)) timeA = Infinity;
         if (isNaN(timeB)) timeB = Infinity;
 
@@ -136,7 +136,7 @@ function orderAssignments(assignments) {
     });
 }
 
-// Generate a new, full array from all sources
+// Generate a new, full array from all sources.
 async function appendAssignments() {
     let result = await browser.storage.local.get(["gradescopeAssignments", "canvasAssignments"]);
     let gradescopeAssignments = result.gradescopeAssignments || [];
@@ -150,16 +150,22 @@ async function appendAssignments() {
     await browser.storage.local.set({ "allAssignments": allAssignments });
 }
 
+// Create a new function that waits for both fetches to complete.
+async function refreshAllAssignments() {
+    await Promise.all([
+        fetchGradescopeAssignments(),
+        fetchCanvasAssignments()
+    ]);
+    await appendAssignments();
+}
+
 // Messaging system
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-	if (message.action === "refreshAssignments") {
-		console.debug("[Dashboard Extension] Refreshing assignments...");
-		fetchGradescopeAssignments();
-		fetchCanvasAssignments();
-		appendAssignments();
-	}
+    if (message.action === "refreshAssignments") {
+        console.debug("[Dashboard Extension] Refreshing assignments...");
+        refreshAllAssignments();
+    }
 });
 
-fetchGradescopeAssignments();
-fetchCanvasAssignments();
-appendAssignments();
+// Initial call: wait for both fetches to finish, then append.
+refreshAllAssignments();
