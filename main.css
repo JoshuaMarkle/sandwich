@@ -32,13 +32,16 @@
 	--border: #d1d1d1;
     --fade: #0001;
 
-	/* --fg-green: #1d9d74; */
+	--green: #1d9d74;
 	--fg-green: #b0ddce;
 	--fg-green-link: #198764;
 	--bg-green-dark: #1b926c;
 	--bg-green: #1fa67a;
 	--bg-green-2: #f1f9f7;
 	--border-green: #e0f1e9;
+
+	--fg-red: #ea4a5a;
+	--bg-red: #ea4a5a22;
 }
 
 /* Generic */
@@ -46,7 +49,7 @@
 html,
 body {
     color: var(--fg);
-    background: var(--bg-dark);
+    background: var(--bg);
     height: 100%;
     width: 100%;
     margin: 0;
@@ -71,12 +74,16 @@ h2 {
 
 h3 {
     font-size: 1.25rem;
-    margin: 0;
+    margin: 0.5rem 0;
 }
 
-p { margin: 0; }
+p { margin: 0.25rem; }
 
 i { color: var(--fg); }
+h2 i { font-size: 1.25rem; }
+button i { font-size: 0.7rem; }
+
+/* Buttons */
 
 button {
     background: none;
@@ -108,6 +115,15 @@ button.assignment-button:hover {
 	text-decoration: underline;
 }
 
+input {
+	/* all: unset; */
+	padding: 2px;
+    border: 1px solid var(--border);
+	border-radius: 2px;
+}
+
+/* Header */
+
 header {
 	color: var(--bg);
 	background: var(--bg-green);
@@ -128,6 +144,7 @@ header {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	gap: 20px;
 }
 
 .content #assignments {
@@ -137,6 +154,20 @@ header {
 .content .summary {
 	flex: 1;
 	margin: 0px 10px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: auto;
+}
+
+.content-classes {
+	flex: 2;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: auto;
+}
+
+.content-integrations {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	margin-bottom: auto;
@@ -219,4 +250,107 @@ header {
 	width: 100%;
 	height: 5px;
 	border-bottom: 1px solid var(--border);
+}
+
+/* Classes */
+
+.class {
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+}
+
+.class div:nth-child(2) {
+	margin-top: 5px;
+}
+
+.class-content {
+	width: 100%;
+}
+
+.title {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.title p {
+	font-size: 1rem;
+	color: var(--fg-3);
+	margin: 0;
+}
+
+.delete {
+	height: 2rem;
+	width: 2rem;
+	margin: 10px;
+	background: var(--bg-red);
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	border: 1px solid var(--fg-red);
+	border-radius: 5px;
+	transition: 0.2s;
+}
+
+.delete i { color: var(--fg-red); }
+.delete:hover { transform: scale(0.9, 0.9); }
+
+.add {
+	height: 2rem;
+	width: 2rem;
+	margin: 10px;
+	background: var(--bg-green-2);
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	border: 1px solid var(--green);
+	border-radius: 5px;
+	transition: 0.2s;
+}
+
+.add i { color: var(--green); }
+.add:hover { transform: scale(0.9, 0.9); }
+
+/* Table */
+
+table {
+    display: block;
+}
+
+table h1 {
+    text-align: left;
+    margin: 10px 0;
+}
+
+table > caption > h1 {
+    margin-top: 0;
+}
+
+table th {
+    font-family: "Roboto", Arial, FontAwesome;
+    font-weight: normal;
+    text-align: left;
+}
+
+select,
+table button,
+table input {
+	width: 100%;
+	border: 1px solid var(--border);
+}
+
+select:hover,
+table button:hover,
+table input:hover {
+	border: 1px solid var(--border);
+}
+table input:focus-visible {
+	border: 1px solid var(--border);
+}
+
+table button {
+    margin-top: 10px;
 }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Sandwich | Settings</title>
+		<link rel="stylesheet" href="main.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<header>
+			<h1>Settings</h1>
+			<div>
+				<button id="dashboard" class="green"><i class="fa fa-home"></i> Back</button>
+			</div>
+		</header>
+		<div class="content">
+			<div class="content-classes">
+				<h2><i class="fa fa-book"></i> Classes</h2>
+				<div class="breakline"></div>
+				<div class="class">
+					<button class="add" id="add-class">
+						<i class="fa fa-plus"></i>
+					</button>
+					<div>
+						<h3>New Class</h3>
+						<table>
+							<tr>
+								<th>Name</th>
+								<th><input type="text" id="add-name" placeholder="Class Name"/></th>
+							</tr>
+							<tr>
+								<th>Nickname</th>
+								<th><input type="text" id="add-domain" placeholder="Class Nickname"/></th>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="class">
+					<button class="delete" id="delete-class-1">
+						<i class="fa fa-times"></i>
+					</button>
+					<div class="class-content">
+						<div class="title">
+							<h3>ENG</h3>
+							<p>Engineering Foundations II</p>
+						</div>
+						<table>
+							<tr>
+								<th>Canvas</th>
+								<th><input type="text" id="add-name" placeholder="Class ID"/></th>
+							</tr>
+							<tr>
+								<th>Gradescope</th>
+								<th><input type="text" id="add-domain" placeholder="Class ID"/></th>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="class">
+					<button class="delete" id="delete-class-2">
+						<i class="fa fa-times"></i>
+					</button>
+					<div class="class-content">
+						<div class="title">
+							<h3>CSO2</h3>
+							<p>Computer Science Orginization II</p>
+						</div>
+						<table>
+							<tr>
+								<th>Canvas</th>
+								<th><input type="text" id="add-name" placeholder="Class ID"/></th>
+							</tr>
+							<tr>
+								<th>Gradescope</th>
+								<th><input type="text" id="add-domain" placeholder="Class ID"/></th>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="content-integrations">
+				<h2><i class="fa fa-plug"></i> Integrations</h2>
+				<div class="breakline"></div>
+				<h3>Canvas</h3>
+				<table>
+					<tr>
+						<th>Last Update</th>
+						<th>01/12/2025</th>
+					</tr>
+					<tr>
+						<th>Access Token</th>
+						<th>Not Found</th>
+					</tr>
+					<tr>
+						<th>Update Token</th>
+						<th><input type="text" id="input-canvas" name="at" placeholder="Paste Token..."></th>
+					</tr>
+				</table>
+				<button id="update-access-token">Update Access Token</button>
+				<h3>Gradescope</h3>
+				<table>
+					<tr>
+						<th>Last Update</th>
+						<th>Not Found</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<script src="scripts/settings.js"></script>
+	</body>
+</html>
