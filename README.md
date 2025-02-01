@@ -1,6 +1,6 @@
 <h1 align="center">DASHboard</h1>
 
-**DASH** is an assignment management tool that scrapes tasks from platforms like Canvas and Gradescope into a single calendar. 
+**DASH** is an assignment management tool that scrapes tasks from platforms like Canvas and Gradescope into a single calendar. It works as a *browser extension* to workaround authentication of many different sites (uses saved cookies as auth).
 
 ### ✨ Integrations
 
