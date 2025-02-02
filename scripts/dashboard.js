@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		// Loop through each day group.
 		groupedAssignments.forEach(dayGroup => {
 			// Create a Date object from the stored "date" string.
-			const dayDate = new Date(dayGroup.date);
-			dayDate.setHours(0, 0, 0, 0);
+			// Add a day cause, um idk
+			const dayDate = new Date(new Date(dayGroup.date).setHours(0, 0, 0, 0) + 86400000);
 
 			// Create the day header.
 			let dayHeader;

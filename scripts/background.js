@@ -320,7 +320,6 @@ async function getStoredCourseIDs() {
 
 	// Loop over each class; find ids
 	classes.forEach(course => {
-		console.log("")
 		if (course.canvasId && course.canvasId.trim() !== "") {
 			canvasIDs.push(Number(course.canvasId));
 		}
