@@ -1,10 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-	// Dashboard Navigation
-	const dashboardBtn = document.getElementById("dashboard");
-	dashboardBtn.addEventListener("click", () => {
-		browser.tabs.create({ url: browser.runtime.getURL("dashboard.html") });
-	});
-
 	// Render Classes
 	function renderClasses() {
 		const classesList = document.getElementById("classes-list");
@@ -57,6 +51,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		// Table for integration IDs
 		const table = document.createElement("table");
+
+		// Row for Color ID
+		const rowColor = document.createElement("tr");
+		const thColorLabel = document.createElement("th");
+		thColorLabel.textContent = "Color";
+		const thColorInput = document.createElement("th");
+		const colorInput = document.createElement("input");
+		colorInput.type = "text";
+		colorInput.id = "color-id-" + cls.id;
+		colorInput.dataset.classId = cls.id;
+		colorInput.classList.add("class-edit");
+		colorInput.placeholder = "Color Class ID";
+		colorInput.value = cls.colorId || "";
 
 		// Row for Canvas ID
 		const rowCanvas = document.createElement("tr");
@@ -158,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		}).then(() => {
 				nameInput.value = "";
 				nicknameInput.value = "";
-				renderClasses();
 			}).catch((err) => {
 				console.error("Error saving class:", err);
 			});
@@ -179,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const updateTokenBtn = document.getElementById("update-access-token");
 	updateTokenBtn.addEventListener("click", () => {
 		const tokenInput = document.getElementById("input-canvas");
+		const linkInput = document.getElementById("input-canvas");
 		const token = tokenInput.value.trim();
 		if (!token) {
 			alert("Please enter an access token");
@@ -192,10 +199,70 @@ document.addEventListener("DOMContentLoaded", () => {
 				document.getElementById("canvas-access-token-indicator").textContent = "Found";
 				const now = new Date().toLocaleDateString();
 				document.getElementById("canvas-last-update").textContent = now;
-				return browser.storage.local.set({ canvasLastUpdate: now });
+				return
 			})
 			.catch(console.error);
 	});
+
+	// Import/Export buttons
+	const exportBtn = document.getElementById("export-classes");
+	if (exportBtn) {
+		exportBtn.addEventListener("click", exportClasses);
+	}
+	const importInput = document.getElementById("import-file");
+	if (importInput) {
+		importInput.addEventListener("change", event => {
+			const file = event.target.files[0];
+			if (file) {
+				importClasses(file);
+			}
+		});
+	}
+
+	// Export
+	function exportClasses() {
+		browser.storage.local.get("classes").then(result => {
+			const classesData = result.classes || [];
+			const dataStr = JSON.stringify(classesData, null, 2); // pretty-print with indentation
+			const blob = new Blob([dataStr], { type: "application/json" });
+			const url = URL.createObjectURL(blob);
+
+			// Create a temporary anchor element to trigger the download.
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = "classes_export.json";
+			document.body.appendChild(a);
+			a.click();
+
+			// Clean up.
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+		}).catch(err => {
+				console.error("Error exporting classes:", err);
+			});
+	}
+
+	// Import
+	function importClasses(file) {
+		const reader = new FileReader();
+		reader.onload = event => {
+			try {
+				const importedClasses = JSON.parse(event.target.result);
+				// Save the imported classes to storage.
+				browser.storage.local.set({ classes: importedClasses }).then(() => {
+					alert("Classes imported successfully!");
+					// Optionally, refresh the UI or update internal state.
+				}).catch(err => {
+						console.error("Error saving imported classes:", err);
+						alert("Failed to save imported classes.");
+					});
+			} catch (error) {
+				console.error("Error parsing JSON:", error);
+				alert("Error parsing imported file: " + error);
+			}
+		};
+		reader.readAsText(file);
+	}
 
 	// Listen for storage changes
 	browser.storage.onChanged.addListener((changes, area) => {
@@ -203,12 +270,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			// Render classes
 			if (changes.classes) {
 				renderClasses();
-			}
-
-			// Update last canvas update time
-			if (changes.canvasLastUpdate) {
-				document.getElementById("canvas-last-update").textContent =
-					changes.canvasLastUpdate.newValue;
 			}
 
 			// Update last gradescope update time

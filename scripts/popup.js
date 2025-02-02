@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Open the dashboard in a new tab.
     dashboardButton.addEventListener("click", function () {
-        const url = browser.runtime.getURL("dashboard.html");
+        const url = browser.runtime.getURL("pages/dashboard.html");
         browser.tabs.create({ url });
     });
 

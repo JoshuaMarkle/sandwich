@@ -18,9 +18,9 @@
 			"run_at": "document_start"
 		}
 	],
-	"options_page": "dashboard.html",
+	"options_page": "pages/dashboard.html",
 	"action": {
-		"default_popup": "popup.html",
+		"default_popup": "pages/popup.html",
 		"default_icon": {
 			"16": "icons/icon16.png",
 			"32": "icons/icon32.png",

@@ -14,9 +14,7 @@
 		<header>
 			<h1>Settings</h1>
 			<div>
-				<button id="dashboard" class="green">
-					<i class="fa fa-home"></i> Back
-				</button>
+				<a href="dashboard.html"><button class="green"><i class="fa fa-home"></i> Back</button></a>
 			</div>
 		</header>
 		<div class="content">
@@ -42,6 +40,12 @@
 					</div>
 				</div>
 				<div id="classes-list"></div>
+				<h2><i class="fa fa-file-import"></i> Import/Export</h2>
+				<div class="breakline"></div>
+				<div class="row">
+					<button id="export-classes" class="settings-button">Export Classes</button>
+					<input type="file" id="import-file" accept="application/json" />
+				</div>
 			</div>
 			<div class="content-integrations">
 				<h2><i class="fa fa-plug"></i> Integrations</h2>
@@ -52,6 +56,10 @@
 						<th>Last Update</th>
 						<th id="canvas-last-update">01/12/2025</th>
 					</tr>
+					<!-- <tr> -->
+					<!-- 	<th>Canvas Link</th> -->
+					<!-- 	<th><input type="text" id="input-canvas-link" name="at" placeholder="https://canvas.instructure.com/"/></th> -->
+					<!-- </tr> -->
 					<tr>
 						<th>Access Token</th>
 						<th id="canvas-access-token-indicator">Not Found</th>
@@ -71,6 +79,6 @@
 				</table>
 			</div>
 		</div>
-		<script src="scripts/settings.js"></script>
+		<script src="../scripts/settings.js"></script>
 	</body>
 </html>

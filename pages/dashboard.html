@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Sandwich Dashboard</title>
+		<title>Sandwich | Dashboard</title>
 		<link rel="stylesheet" href="main.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,18 +12,23 @@
 	</head>
 	<body>
 		<header>
-			<h1>Sandwich Dashboard</h1>
+			<h1>Sandwich</h1>
 			<div>
 				<button id="refresh" class="green"><i class="fa fa-refresh"></i> Refresh</button>
-				<button id="settings" class="green"><i class="fa fa-gear"></i> Settings</button>
+				<a href="settings.html"><button class="green"><i class="fa fa-gear"></i> Settings</button></a>
 			</div>
 		</header>
+		<div class="refresh-bar">
+			<p><i class="fa fa-chart-simple"></i> <a href="https://www.gradescope.com/" target="_blank">Gradescope</a><p id="gradescope-status"> Not authenticated</p></p>
+			<p><i class="fa fa-spinner"></i> <a href="">Canvas</a> <p id="canvas-status"> Not authenticated</p></p>
+		</div>
 		<div class="content">
 			<div id="assignments">Loading...</div>
-			<div class="summary">
-				<h3>Integrations</h3>
-			</div>
+			<!-- <div class="summary"> -->
+			<!-- 	<h3>Integrations</h3> -->
+			<!-- 	<div class="breakline"></div> -->
+			<!-- </div> -->
 		</div>
-		<script src="scripts/dashboard.js"></script>
+		<script src="../scripts/dashboard.js"></script>
 	</body>
 </html>
