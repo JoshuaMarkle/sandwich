@@ -142,7 +142,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Refresh assignments on button click.
     refreshButton.addEventListener("click", () => {
-        browser.runtime.sendMessage({ action: "refreshAssignments" });
+        browser.runtime.sendMessage({ action: "refreshAssignments" })
+			.catch(error => {
+				console.warn("[Dashboard] ERROR with refresh button", error);
+			});
     });
 
     // Update the UI if there is a change to the extension storage

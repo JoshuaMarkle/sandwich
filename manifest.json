@@ -14,7 +14,6 @@
 		],
 		"type": "module"
 	},
-	"options_page": "pages/dashboard.html",
 	"action": {
 		"default_popup": "pages/popup.html",
 		"default_icon": {
@@ -23,5 +22,12 @@
 			"64": "icons/icon64.png",
 			"128": "icons/icon128.png"
 		}
-	}
+	},
+	"options_page": "pages/dashboard.html",
+	"web_accessible_resources": [
+		{
+			"resources": ["lib/browser-polyfill.js.map"],
+			"matches": ["<all_urls>"]
+		}
+	]
 }

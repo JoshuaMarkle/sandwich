@@ -24,10 +24,7 @@ async function fetchCanvasAssignments() {
     }
 
 	// Get the canvas ids
-    let courseIds = [];
-	getStoredCourseIDs().then(ids => {
-		courseIds = ids.canvas;
-	});
+	let courseIds = (await getStoredCourseIDs()).canvas || [];
 
     const headers = {
         "Authorization": `Bearer ${canvasAccessToken}`,
