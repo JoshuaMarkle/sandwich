@@ -1,26 +1,24 @@
-<div align="center">
-  <img src="https://github.com/JoshuaMarkle/sandwich/blob/main/icons/sandwich.png" style="width: 150px">
-  <h1>Sandwich</h1>
-</div>
+<p align="center"><img width="120" src="https://github.com/JoshuaMarkle/sandwich/blob/main/icons/sandwich.png" alt="UniStyles Logo"></p>
+<h1 align="center">🥪 Sandwich 🥪</h1>
 
-:sandwich: **Sandwich** is an assignment management tool that *sandwiches* assignments from platforms like Canvas and Gradescope into a single calendar. It works as a *browser extension* to run in the background & workaround authentication of many different sites.
+<p align="center"><strong>Sandwich</strong> is an assignment management tool that <em>sandwiches</em> assignments from platforms like Canvas and Gradescope into a single calendar. It works as a <em>browser extension</em> to run in the background & workaround authentication.</p>
 
-### ✨ Integrations
+<img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff&style=flat-square" alt="HTML5 Badge"> <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=fff&style=flat-square" alt="CSS3 Badge"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=flat-square" alt="JavaScript Badge">
 
-<table>
-  <th>
-    <img src="https://github.com/JoshuaMarkle/sandwich/blob/main/.github/canvas-banner.jpg" style="width: 300px">
-  </th>
-  <th>
-    <img src="https://github.com/JoshuaMarkle/sandwich/blob/main/.github/gradescope-banner.png" style="width: 300px">
-  </th>
-  <th>
-    <img src="https://github.com/JoshuaMarkle/sandwich/blob/main/.github/firefox-banner.png" style="width: 300px">
-  </th>
-</table>
+## ✨ Integrations
 
-### 📝 Upcoming Integrations
+### 🔍 Browsers
+- Firefox (Official)
+- Chrome (Unofficial)
 
-- Chrome
+### 📝 Platforms
+- Canvas
+- Gradescope
+
+## 😍 Upcoming
+
+### 📝 Platforms
+- WeBWorK
 - WebAssign
-- CSO2 Assignments + Quizes
+- Special (User Created)
+  - UVA CSO2 Assignments + Quizes
