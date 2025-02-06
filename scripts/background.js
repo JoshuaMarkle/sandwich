@@ -23,8 +23,10 @@ async function fetchCanvasAssignments() {
         return;
     }
 
-	// Get the canvas ids
-	let courseIds = (await getStoredCourseIDs()).canvas || [];
+	// Get the classes
+	// let classes = (await browser.storage.local.get("classes")) || [];
+	let storedData = await browser.storage.local.get("classes");
+	let classes = storedData.classes || [];
 
     const headers = {
         "Authorization": `Bearer ${canvasAccessToken}`,
@@ -34,22 +36,32 @@ async function fetchCanvasAssignments() {
     let assignments = [];
 
     try {
-        for (let courseId of courseIds) {
+        for (let course of classes) {
+
+			// Check for canvas id
+			const courseId = course.canvasId;
+			if (!courseId) {
+				continue;
+			}
+
+			// Request information
             let response = await fetch(`${canvasLink}/api/v1/courses/${courseId}/assignments`, {
                 method: "GET",
                 headers
             });
 
+			// Check the response
             if (!response.ok) {
                 console.warn(`[Background] Skipping course ${courseId}, API response: ${response.status}`);
                 continue;
             }
 
+			// Format assignments
             let courseAssignments = await response.json();
             courseAssignments.forEach(assignment => {
                 assignments.push({
                     name: assignment.name,
-                    class: assignment.course_id,
+                    class: course.nickname,
                     due_date: assignment.due_at ? cleanDate(assignment.due_at) : "No Due Date",
                     complete: assignment.has_submitted_submissions,
                     link: assignment.html_url,
@@ -92,17 +104,31 @@ async function fetchGradescopeAssignments() {
     const gradescopeLink = "https://www.gradescope.com";
 
 	// Get the canvas ids
-    let courseIds = [];
-	getStoredCourseIDs().then(ids => {
-		courseIds = ids.gradescope;
-	});
-
-	const now = new Date().toISOString();
+ 	// let courseIds = [];
+	// getStoredCourseIDs().then(ids => {
+	// 	courseIds = ids.gradescope;
+	// });
+	
+	// Get the classes
+	// let classes = (await browser.storage.local.get("classes")) || [];
+	let storedData = await browser.storage.local.get("classes");
+	let classes = storedData.classes || [];
+	let gradescopeCourses = [];
+	for (let course of classes) {
+		if (course.gradescopeId && course.gradescopeId.trim() !== "") {
+			gradescopeCourses.push({
+				id: Number(course.gradescopeId),
+				name: course.nickname
+			});
+		}
+	}
 
 	// Update last fetch
+	const now = new Date().toISOString();
 	updateGradescopeMetadata({ lastFetch: now });
 
     try {
+		// Attempt to connect to gradescope
         let response = await fetch(gradescopeLink, { credentials: "include" });
 
 		// Check for response
@@ -131,9 +157,11 @@ async function fetchGradescopeAssignments() {
             let courseLink = gradescopeLink + course.getAttribute("href");
             let courseId = parseInt(course.getAttribute("href").replace("/courses/", "").trim());
 
-            if (!courseIds.includes(courseId)) {
-                continue;
-            }
+			// Check if the courseId is within gradescope classes 
+			let matchedCourse = gradescopeCourses.find(course => course.id === courseId);
+			if (!matchedCourse) {
+				continue;
+			}
 
             let courseRes = await fetch(courseLink, { credentials: "include" });
             let courseText = await courseRes.text();
@@ -141,6 +169,7 @@ async function fetchGradescopeAssignments() {
 
             let rows = courseDoc.querySelectorAll("tbody tr[role=row]");
 
+			// Find the assignment
             for (let row of rows) {
                 let titleElement = row.querySelector("th a, th button, th");
                 let dueDateElement = row.querySelector("time.submissionTimeChart--dueDate");
@@ -155,7 +184,7 @@ async function fetchGradescopeAssignments() {
 
                 assignments.push({
                     name: title,
-                    class: courseName,
+                    class: matchedCourse.name,
                     due_date: dueDate,
                     complete: complete,
                     link: link,
@@ -294,38 +323,6 @@ async function appendAssignments() {
 
     // Save the grouped assignments to storage.
     await browser.storage.local.set({ "allAssignments": grouped });
-}
-
-// Return the stored class ids
-async function getStoredCourseIDs() {
-	// Retrieve the "classes" from storage.
-	const result = await browser.storage.local.get("classes");
-	let classes = result.classes || [];
-
-	// Check if exists
-	if (typeof classes === "string") {
-		try {
-			classes = JSON.parse(classes);
-		} catch (e) {
-			console.error("Error parsing classes JSON:", e);
-			return { canvas: [], gradescope: [] };
-		}
-	}
-
-	const canvasIDs = [];
-	const gradescopeIDs = [];
-
-	// Loop over each class; find ids
-	classes.forEach(course => {
-		if (course.canvasId && course.canvasId.trim() !== "") {
-			canvasIDs.push(Number(course.canvasId));
-		}
-		if (course.gradescopeId && course.gradescopeId.trim() !== "") {
-			gradescopeIDs.push(Number(course.gradescopeId));
-		}
-	});
-
-	return { canvas: canvasIDs, gradescope: gradescopeIDs };
 }
 
 // Create a new function that waits for both fetches to complete.

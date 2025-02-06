@@ -3,9 +3,17 @@
 	"name": "Sandwich",
 	"description": "Sandwich assignments from many sources",
 	"version": "1.0",
-	"permissions": ["storage", "alarms", "activeTab", "tabs", "scripting", "webRequest"],
+	"permissions": [
+		"storage",
+		"alarms",
+		"activeTab",
+		"tabs",
+		"scripting",
+		"webRequest"
+	],
 	"host_permissions": [
-		"https://www.gradescope.com/*"
+		"https://www.gradescope.com/*",
+		"https://canvas.its.virginia.edu/*"
 	],
 	"background": {
 		"scripts": [

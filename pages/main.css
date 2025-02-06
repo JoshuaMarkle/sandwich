@@ -1,52 +1,36 @@
 :root {
-    /* --black: #1b1f23; */
-    /* --bg-dark: #1f2428; */
-    /* --bg: #24292e; */
-    /* --bg-2: #2f363d; */
-    /* --bg-3: #444d56; */
-    /* --bg-4: #586069; */
-    /* --fg: #e1e4e8; */
-    /* --fg-2: #959da5; */
-    /* --fg-3: #444d56; */
-    /* --highlight: #586069; */
-    /* --border: #1b1f23; */
-    /* --red: #f97583; */
-    /* --red-2: #ea4a5a; */
-    /* --orange: #ffab70; */
-    /* --orange-2: #ffab70; */
-    /* --green: #85e89d; */
-    /* --green-2: #34d058; */
-    /* --cyan: #79b8ff; */
-    /* --cyan-2: #79b8ff; */
-    /* --blue: #79b8ff; */
-    /* --blue-2: #0366d6; */
-    /* --blue-3: #005cc5; */
-    /* --purple: #b392f0; */
-    /* --purple-2: #b392f0; */
-    --bg-dark: #eee;
-    --bg: #fff;
-    --bg-2: #fafafa;
-    --fg: #333;
-    --fg-2: #777;
-    --fg-3: #b3b3b3;
-	--border: #d1d1d1;
+    --bg: #ffffff;
+    --bg-2: #f7f7f8;
+    --bg-3: #ebebef;
+    --bg-4: #d1d1db;
+    --bg-5: #a9a9bc;
+    --bg-6: #8a8aa3;
+    --bg-7: #6c6c89;
+    --bg-8: #55556d;
+    --bg-9: #3f3f50;
+    --bg-10: #282833;
+    --bg-11: #121217;
+    --black: #000000;
+    --fg: #282833;
+    --fg-2: #8a8aa3;
+	--border: #d1d1db;
     --fade: #0001;
 
-	--green: #1d9d74;
-	--fg-green: #b0ddce;
-	--fg-green-link: #198764;
-	--bg-green-dark: #1b926c;
-	--bg-green: #1fa67a;
-	--bg-green-2: #f1f9f7;
-	--border-green: #1b926c;
-	--border-green-2: #e0f1e9;
+	--accent: #1d9d74;
+	--fg-accent: #b0ddce;
+	--bg-accent: #1fa67a;
+	--border-accent: #1b926c;
 
-	--fg-red: #ea4a5a;
-	--bg-red: #ea4a5a;
-	--bg-red-2: #fce7e9;
-	--border-red: #ea4a5a55;
-    --fg-blue: #0366d6;
-    --bg-blue-dark: #79b8ff33;
+	--red: #f3164e;
+	--orange: #ff7d52;
+	--yellow: #ffc233;
+	--green: #2dca72;
+    --blue: #00acff;
+	--purple: #7047eb;
+	--pink: #f75fde;
+	--bg-red: #fff2ee;
+	--bg-green: #eefbf4;
+	--bg-blue: #dbf3ff;
 }
 
 /* Generic */
@@ -100,14 +84,15 @@ button {
     border-radius: 5px;
 }
 
-button.green {
+.header-buttons button {
     color: var(--bg);
 	border: none;
 }
-button.green:hover { color: var(--fg-green); }
 
-button.green i { color: var(--bg); }
-button.green:hover i { color: var(--fg-green); }
+.header-buttons button:hover { color: var(--fg-accent); }
+
+.header-buttons button i { color: var(--bg); }
+.header-buttons button:hover i { color: var(--fg-accent); }
 
 button.assignment-button {
 	justify-content: center;
@@ -131,17 +116,17 @@ input {
 
 header {
 	color: var(--bg);
-	background: var(--bg-green);
+	background: var(--bg-accent);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	padding: 50px 200px 10px 200px;
-	border-bottom: 1px solid var(--border-green);
+	border-bottom: 1px solid var(--border-accent);
 }
 
 .refresh-bar {
-	background: var(--bg-dark);
+	background: var(--bg-2);
 	display: flex;
 	flex-direction: row;
 	margin: 0;
@@ -197,6 +182,10 @@ header {
 	margin-bottom: auto;
 }
 
+.row {
+	margin-top: 10px;
+}
+
 @media only screen and (max-width: 1000px) {
 	header,
 	.content { 
@@ -242,7 +231,7 @@ header {
 	margin-top: 0.5rem;
 	overflow-y: auto;
 	max-height: 400px;
-	scrollbar-color: var(--fg-3) var(--fade);
+	scrollbar-color: var(--fg-2) var(--fade);
 }
 
 .popup-row {
@@ -271,8 +260,8 @@ header {
 
 .assignment .color {
 	color: var(--fg);
-	background: var(--bg-red);
-	border: 1px solid var(--border-red);
+	background: var(--blue);
+	border: 1px solid var(--blue);
 	border-radius: 5px 0 0 5px;
 	text-align: center;
 }
@@ -288,6 +277,11 @@ header {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+}
+
+.assignment .group i {
+	width: 1rem;
+	margin-right: 0.1rem;
 }
 
 .assignment .item {
@@ -313,7 +307,7 @@ header {
 	flex-direction: row;
 	justify-content: space-between;
 	color: var(--fg-2);
-	margin-left: 15px;
+	margin-left: 1.3rem;
 }
 
 .assignment .info p {
@@ -355,7 +349,7 @@ header {
 
 .title p {
 	font-size: 1rem;
-	color: var(--fg-3);
+	color: var(--fg-2);
 	margin: 0;
 }
 
@@ -363,34 +357,34 @@ header {
 	height: 2rem;
 	width: 2rem;
 	margin: 10px;
-	background: var(--bg-red-2);
+	background: var(--bg-red);
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	border: 1px solid var(--fg-red);
+	border: 1px solid var(--red);
 	border-radius: 5px;
 	transition: 0.2s;
 }
 
 i.incomplete,
-.delete i { color: var(--fg-red); }
+.delete i { color: var(--red); }
 .delete:hover { transform: scale(0.9, 0.9); }
 
 .add {
 	height: 2rem;
 	width: 2rem;
 	margin: 10px;
-	background: var(--bg-green-2);
+	background: var(--bg-green);
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	border: 1px solid var(--green);
+	border: 1px solid var(--accent);
 	border-radius: 5px;
 	transition: 0.2s;
 }
 
 i.complete,
-.add i { color: var(--green); }
+.add i { color: var(--accent); }
 .add:hover { transform: scale(0.9, 0.9); }
 
 /* Table */
