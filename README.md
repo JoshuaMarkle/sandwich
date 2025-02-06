@@ -11,12 +11,10 @@
 
 ### Browsers
 
-Sandwich was built and tested on **Firefox**! 
-
-It unofficially supports chromium based browsers such as:
+- Firefox
 - Google Chrome
-- Edge
-- Brave
+
+It unofficially supports chromium based browsers such as Edge, Brave, etc.
 
 ### Platforms
 - Canvas
@@ -29,3 +27,7 @@ It unofficially supports chromium based browsers such as:
 - WebAssign
 - Special (User Created)
   - UVA CSO2 Assignments + Quizes
+
+## 📄 License
+
+Although this project is open-source, do not use/copy/redistribute this code.
