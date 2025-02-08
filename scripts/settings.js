@@ -39,125 +39,117 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-	// Create a Class Block Element
 	function createClassBlock(cls) {
 		const div = document.createElement("div");
 		div.classList.add("class");
-		div.id = "class-" + cls.id;
+		div.id = `class-${cls.id}`;
 		div.dataset.classId = cls.id;
 
-		// Delete button
 		const deleteBtn = document.createElement("button");
 		deleteBtn.classList.add("delete");
-		deleteBtn.id = "delete-class-" + cls.id;
 		deleteBtn.innerHTML = '<i class="fa fa-times"></i>';
 		deleteBtn.addEventListener("click", () => deleteClass(cls.id));
 		div.appendChild(deleteBtn);
 
-		// Class content
 		const contentDiv = document.createElement("div");
 		contentDiv.classList.add("class-content");
 
-		// Title section
-		const titleDiv = document.createElement("div");
-		titleDiv.classList.add("title");
 		const h3 = document.createElement("h3");
-		h3.id = "class-short-name-" + cls.id;
-
-		// Use the nickname if available; otherwise, derive one from the name.
+		h3.id = `class-short-name-${cls.id}`;
 		h3.textContent = cls.nickname || cls.name.substring(0, 3).toUpperCase();
+
 		const p = document.createElement("p");
-		p.id = "class-full-name-" + cls.id;
+		p.id = `class-full-name-${cls.id}`;
 		p.textContent = cls.name;
-		titleDiv.appendChild(h3);
-		titleDiv.appendChild(p);
-		contentDiv.appendChild(titleDiv);
 
-		// Table for integration IDs
-		const table = document.createElement("table");
+		contentDiv.appendChild(h3);
+		contentDiv.appendChild(p);
 
-		// Row for Color ID
-		const rowColor = document.createElement("tr");
-		const thColorLabel = document.createElement("th");
-		thColorLabel.textContent = "Color";
-		const thColorInput = document.createElement("th");
+		const rowDiv = document.createElement("div");
+		rowDiv.classList.add("row");
+
+		const leftColumn = document.createElement("div");
+		leftColumn.style.flex = "1";
+
+		const rightColumn = document.createElement("div");
+		rightColumn.style.flex = "1";
+
+		// Left Column Inputs
+		leftColumn.appendChild(createInputField("Name", `name-${cls.id}`, cls.name, cls.id, "name"));
+		leftColumn.appendChild(createInputField("Canvas", `canvas-id-${cls.id}`, cls.canvasId, cls.id, "canvasId"));
+
+		const colorLabel = document.createElement("h4");
+		colorLabel.textContent = "Class Color";
+		leftColumn.appendChild(colorLabel);
+
+		const colorRow = document.createElement("div");
+		colorRow.classList.add("row");
+		colorRow.style.gap = "5px";
+
+		const colorBox = document.createElement("div");
+		colorBox.classList.add("color-box");
+
+		const colorPreview = document.createElement("div");
+		colorPreview.style.background = cls.color || "var(--blue)";
+		colorBox.appendChild(colorPreview);
+
 		const colorInput = document.createElement("input");
 		colorInput.type = "text";
-		colorInput.id = "color-id-" + cls.id;
-		colorInput.dataset.classId = cls.id;
-		colorInput.classList.add("class-edit");
-		colorInput.placeholder = "Color Class ID";
-		colorInput.value = cls.colorId || "";
+		colorInput.id = `color-${cls.id}`;
+		colorInput.placeholder = "#00AAFF";
+		colorInput.value = cls.color || "";
 
-		// Row for Canvas ID
-		const rowCanvas = document.createElement("tr");
-		const thCanvasLabel = document.createElement("th");
-		thCanvasLabel.textContent = "Canvas";
-		const thCanvasInput = document.createElement("th");
-		const canvasInput = document.createElement("input");
-		canvasInput.type = "text";
-		canvasInput.id = "canvas-id-" + cls.id;
-		canvasInput.dataset.classId = cls.id;
-		canvasInput.classList.add("class-edit");
-		canvasInput.placeholder = "Canvas Class ID";
-		canvasInput.value = cls.canvasId || "";
+		// Function to handle color validation and live update
+		colorInput.addEventListener("input", () => {
+			const colorValue = colorInput.value.trim();
 
-		// Update storage when this input changes
-		canvasInput.addEventListener("input", (e) =>
-			updateClassField(cls.id, "canvasId", e.target.value)
-		);
-		thCanvasInput.appendChild(canvasInput);
-		rowCanvas.appendChild(thCanvasLabel);
-		rowCanvas.appendChild(thCanvasInput);
-		table.appendChild(rowCanvas);
+			if (isValidHex(colorValue)) {
+				colorPreview.style.backgroundColor = colorValue;
+				colorRemoveError(colorPreview);
+			} else {
+				colorShowError(colorPreview);
+			}
 
-		// Row for Gradescope ID
-		const rowGradescope = document.createElement("tr");
-		const thGradescopeLabel = document.createElement("th");
-		thGradescopeLabel.textContent = "Gradescope";
-		const thGradescopeInput = document.createElement("th");
-		const gradescopeInput = document.createElement("input");
-		gradescopeInput.type = "text";
-		gradescopeInput.id = "gradescope-id-" + cls.id;
-		gradescopeInput.dataset.classId = cls.id;
-		gradescopeInput.classList.add("class-edit");
-		gradescopeInput.placeholder = "Gradescope Class ID";
-		gradescopeInput.value = cls.gradescopeId || "";
+			saveClassesBtn.removeAttribute("disabled");
+		});
 
-		// Update storage when this input changes
-		gradescopeInput.addEventListener("input", (e) =>
-			updateClassField(cls.id, "gradescopeId", e.target.value)
-		);
-		thGradescopeInput.appendChild(gradescopeInput);
-		rowGradescope.appendChild(thGradescopeLabel);
-		rowGradescope.appendChild(thGradescopeInput);
-		table.appendChild(rowGradescope);
+		colorRow.appendChild(colorBox);
+		colorRow.appendChild(colorInput);
+		leftColumn.appendChild(colorRow);
 
-		contentDiv.appendChild(table);
+		// Right Column Inputs
+		rightColumn.appendChild(createInputField("Nickname", `nickname-${cls.id}`, cls.nickname, cls.id, "nickname"));
+		rightColumn.appendChild(createInputField("Gradescope", `gradescope-id-${cls.id}`, cls.gradescopeId, cls.id, "gradescopeId"));
+
+		rowDiv.appendChild(leftColumn);
+		rowDiv.appendChild(rightColumn);
+		contentDiv.appendChild(rowDiv);
 		div.appendChild(contentDiv);
+
 		return div;
 	}
 
-	// Delete a Class
-	function deleteClass(classId) {
-		browser.storage.local.get("classes").then((result) => {
-			let classes = result.classes || [];
-			classes = classes.filter((cls) => cls.id != classId);
-			return browser.storage.local.set({ classes });
-		}).then(renderClasses)
-			.catch(console.error);
-	}
+	// Helper function to create input fields with labels
+	function createInputField(labelText, inputId, inputValue, classId, field) {
+		const wrapper = document.createElement("div");
 
-	// Update a Class Field
-	function updateClassField(classId, field, newValue) {
-		browser.storage.local.get("classes").then((result) => {
-			let classes = result.classes || [];
-			const index = classes.findIndex((cls) => cls.id == classId);
-			if (index > -1) {
-				classes[index][field] = newValue;
-				return browser.storage.local.set({ classes });
-			}
-		}).catch(console.error);
+		const label = document.createElement("h4");
+		label.textContent = labelText;
+		wrapper.appendChild(label);
+
+		const input = document.createElement("input");
+		input.type = "text";
+		input.id = inputId;
+		input.value = inputValue || "";
+		input.dataset.classId = classId;
+		input.classList.add("class-edit");
+		input.placeholder = labelText;
+		input.addEventListener("input", (e) => {
+			saveClassesBtn.removeAttribute("disabled");
+		});
+
+		wrapper.appendChild(input);
+		return wrapper;
 	}
 
 	// Add New Class
@@ -179,7 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			name: newName,
 			nickname: newNickname,
 			canvasId: "",
-			gradescopeId: ""
+			gradescopeId: "",
+			color: "#00acff"
 		};
 
 		browser.storage.local.get("classes").then((result) => {
@@ -194,16 +187,70 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 	});
 
+	// Save classes button
+	const saveClassesBtn = document.getElementById("update-classes");
+	saveClassesBtn.addEventListener("click", () => {
+		browser.storage.local.get("classes").then((result) => {
+			const classes = result.classes || [];
+
+			// Update each class from the current input values
+			classes.forEach((cls) => {
+				cls.name = document.getElementById(`name-${cls.id}`).value;
+				cls.nickname = document.getElementById(`nickname-${cls.id}`).value;
+				cls.canvasId = document.getElementById(`canvas-id-${cls.id}`).value;
+				cls.gradescopeId = document.getElementById(`gradescope-id-${cls.id}`).value;
+				cls.color = document.getElementById(`color-${cls.id}`).value;
+			});
+
+			// Save the updated classes
+			return browser.storage.local.set({ classes });
+		}).then(() => {
+				saveClassesBtn.setAttribute("disabled", true);
+				alert("Classes saved successfully!");
+			}).catch(console.error);
+	});
+
+
 	// Initial Render
 	renderClasses();
 
-	// Initiall check for the canvas access token in storage
-	browser.storage.local.get("canvasAccessToken")
-		.then((result) => {
-			if (result.canvasAccessToken) {
-				document.getElementById("canvas-access-token-indicator").textContent = result.canvasAccessToken;
-			}
-		})
+	// HEX checker
+	function isValidHex(color) {
+		return /^#([0-9A-Fa-f]{3}){1,2}$/.test(color);
+	}
+
+	// Function to show an error message if the input is invalid
+	function colorShowError(inputElement) {
+		colorRemoveError(inputElement);
+
+		inputElement.style.display = "none";
+		const errorMsg = document.createElement("i");
+		errorMsg.style.color = "var(--red)";
+		errorMsg.style.alignContent = "center";
+		errorMsg.style.textAlign = "center";
+		errorMsg.classList.add("color-error");
+		errorMsg.classList.add("fa-solid");
+		errorMsg.classList.add("fa-triangle-exclamation");
+
+		inputElement.parentElement.appendChild(errorMsg);
+	}
+
+	// Function to remove existing error messages
+	function colorRemoveError(inputElement) {
+		inputElement.style.display = "block";
+		const existingError = inputElement.parentElement.querySelector(".color-error");
+		if (existingError) {
+			existingError.remove();
+		}
+	}
+
+	// Initial check for the canvas access token in storage
+	// browser.storage.local.get("canvasAccessToken")
+	// 	.then((result) => {
+	// 		if (result.canvasAccessToken) {
+	// 			document.getElementById("canvas-access-token-indicator").textContent = result.canvasAccessToken;
+	// 		}
+	// 	})
 
 	// Update Canvas Access Token
 	// const updateTokenBtn = document.getElementById("update-access-token");

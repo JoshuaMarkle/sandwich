@@ -97,7 +97,7 @@ input {
 	width: calc(100% - 20px);
 	font-size: 0.9rem;
 	padding: 10px;
-	margin-bottom: 1rem;
+	margin-bottom: 0.5rem;
     border: 1px solid var(--border);
 	border-radius: 5px;
 }
@@ -270,8 +270,6 @@ header {
 
 .assignment .color {
 	color: var(--fg);
-	background: var(--blue);
-	border: 1px solid var(--blue);
 	border-radius: 5px 0 0 5px;
 	text-align: center;
 }
@@ -339,18 +337,18 @@ header {
 	display: flex;
 	flex-direction: row;
 	gap: 5px;
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
 }
 
 .class-content {
 	width: 100%;
 }
 
-/* #classes-list {  */
-/* 	display: flex; */
-/* 	flex-direction: column; */
-/* 	gap: 20px;  */
-/* } */
+
+#classes-list > .class:last-child,
+#classes-list > .class:last-child div:first-child > div:last-child > input {
+	margin-bottom: 0;
+}
 
 .title {
 	width: 100%;
@@ -418,7 +416,7 @@ i.complete,
     border-radius: 3px;
 }
 
-/* IMPORT */
+/* Import */
 
 .import-box {
     width: 100%;
@@ -434,7 +432,6 @@ i.complete,
     font-size: 16px;
     color: var(--fg-2);
     cursor: pointer;
-    background-color: var(--bg-2);
     transition: border-color 0.3s ease;
 }
 

@@ -75,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				// Create the "color" header for the class.
 				const colorDiv = document.createElement("div");
 				colorDiv.classList.add("color");
+				colorDiv.style.background = classGroup.color ? classGroup.color : "var(--red)";
+				colorDiv.style.border = `1px solid ${classGroup.color ? classGroup.color : "var(--red)"}`;
 				const classHeader = document.createElement("h4");
 				classHeader.textContent = classGroup["class"];
 				colorDiv.appendChild(classHeader);

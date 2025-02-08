@@ -65,6 +65,7 @@ async function fetchCanvasAssignments() {
                     due_date: assignment.due_at ? cleanDate(assignment.due_at) : "No Due Date",
                     complete: assignment.has_submitted_submissions,
                     link: assignment.html_url,
+					color: course.color,
 					source: "Canvas"
                 });
             });
@@ -102,15 +103,8 @@ async function fetchGradescopeAssignments() {
 		.catch((error) => {});
 
     const gradescopeLink = "https://www.gradescope.com";
-
-	// Get the canvas ids
- 	// let courseIds = [];
-	// getStoredCourseIDs().then(ids => {
-	// 	courseIds = ids.gradescope;
-	// });
 	
 	// Get the classes
-	// let classes = (await browser.storage.local.get("classes")) || [];
 	let storedData = await browser.storage.local.get("classes");
 	let classes = storedData.classes || [];
 	let gradescopeCourses = [];
@@ -118,7 +112,8 @@ async function fetchGradescopeAssignments() {
 		if (course.gradescopeId && course.gradescopeId.trim() !== "") {
 			gradescopeCourses.push({
 				id: Number(course.gradescopeId),
-				name: course.nickname
+				name: course.nickname,
+				color: course.color
 			});
 		}
 	}
@@ -188,6 +183,7 @@ async function fetchGradescopeAssignments() {
                     due_date: dueDate,
                     complete: complete,
                     link: link,
+					color: matchedCourse.color,
 					source: "Gradescope"
                 });
             }
@@ -243,6 +239,7 @@ function orderAssignments(assignments) {
  *     "groups": [
  *       {
  *         "class": "CLASS NAME",
+ *         "color": "CLASS_COLOR"
  *         "assignments": [ ... ]
  *       },
  *       ...
@@ -257,7 +254,6 @@ function groupAssignments(allAssignments) {
     allAssignments.forEach(assignment => {
         // Normalize the due_date to midnight and format as "YYYY-MM-DD"
         let d = new Date(assignment.due_date);
-        // If the date is invalid, you can decide to skip or assign a placeholder.
         if (isNaN(d.getTime())) return;
         d.setHours(0, 0, 0, 0);
         let dateKey = d.toISOString().split("T")[0];
@@ -269,11 +265,14 @@ function groupAssignments(allAssignments) {
         // Use the assignment's class property to group by class.
         let className = assignment.class;
         if (!dayGroups[dateKey].groups[className]) {
-            dayGroups[dateKey].groups[className] = [];
-        }
+			dayGroups[dateKey].groups[className] = {
+				assignments: [],
+				color: assignment.color || "var(--blue)"
+			};
+		}
 
         // Push a minimal version of the assignment (only the fields needed).
-        dayGroups[dateKey].groups[className].push({
+        dayGroups[dateKey].groups[className].assignments.push({
             name: assignment.name,
 			due_date: assignment.due_date,
             complete: assignment.complete,
@@ -292,7 +291,8 @@ function groupAssignments(allAssignments) {
             Object.keys(groupsObj).forEach(className => {
                 groupsArr.push({
                     "class": className,
-                    assignments: groupsObj[className]
+					"color": groupsObj[className].color,
+                    assignments: groupsObj[className].assignments
                 });
             });
             groupedArray.push({
