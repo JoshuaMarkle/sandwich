@@ -130,24 +130,13 @@ header {
 	border-bottom: 1px solid var(--border);
 }
 
-.tab-bar a {
-	all: unset;
-	font-weight: bold;
-}
-
-.tab-bar a:hover {
-	text-decoration: underline;
-}
-
 .tab-bar button {
 	color: var(--fg-3);
 	display: block;
     padding: 4px 12px;
-	transition: color 0.1s linear;
-	transition: border 0.1s linear;
-	transition: font-weight 0.1s linear;
 	border: 0px solid var(--fg);
 	border-radius: 0;
+	transition: all 0.1s linear;
 }
 
 .tab-bar button.active,
@@ -159,6 +148,17 @@ header {
 	border-bottom: 2px solid var(--fg);
 }
 
+.tab-bar div { 
+	font-weight: 500;
+	display: block;
+	padding: 4px 12px; 
+}
+
+.tab-bar div,
+.tab-bar i { 
+	color: var(--fg-3);
+	font-size: 0.9rem; 
+}
 
 /* Dashboard */
 

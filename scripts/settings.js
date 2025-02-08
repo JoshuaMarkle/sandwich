@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const integrationsContent = document.getElementById("integrations");
 	tabClasses.addEventListener("click", function () { showTab("classes"); });
 	tabIntegration.addEventListener("click", function () { showTab("integrations"); });
-    showTab("integrations");
+    showTab("classes");
 
 	// Show a tab
 	function showTab(tab) {

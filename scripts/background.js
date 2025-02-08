@@ -7,7 +7,7 @@ const canvasLink = "https://canvas.its.virginia.edu";
 
 async function fetchCanvasAssignments() {
     console.debug("[Background] Fetching Canvas assignments...");
-	browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Fetching" })
+	browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Refresh", message: "Refreshing" })
 		.catch((error) => {});
 
 	// Update last fetch
@@ -18,7 +18,7 @@ async function fetchCanvasAssignments() {
     const { canvasAccessToken } = await browser.storage.local.get("canvasAccessToken");
     if (!canvasAccessToken) {
         console.warn("[Background] No Canvas API key found! Stopping fetch");
-		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "No API Key" })
+		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Error", message: "No API Key" })
 			.catch((error) => {});
         return;
     }
@@ -72,7 +72,7 @@ async function fetchCanvasAssignments() {
         }
 
         console.debug("[Background] Canvas assignments fetched successfully.");
-		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Updated" })
+		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Done", message: "Up to date" })
 			.catch((error) => {});
 
 		// If processing is complete, update the data
@@ -83,7 +83,7 @@ async function fetchCanvasAssignments() {
 
     } catch (error) {
         console.warn("[Background] Error fetching Canvas assignments:", error);
-		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Error" })
+		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Error", message: errror })
 			.catch((error) => {});
     }
 }
@@ -99,7 +99,7 @@ function updateCanvasMetadata(updates) {
 
 async function fetchGradescopeAssignments() {
     console.debug("[Background] Fetching Gradescope assignments...");
-	browser.runtime.sendMessage({ action: "updateGradescopeStatus", status: "Fetching" })
+	browser.runtime.sendMessage({ action: "updateGradescopeStatus", status: "Refresh", message: "Refreshing" })
 		.catch((error) => {});
 
     const gradescopeLink = "https://www.gradescope.com";
@@ -190,7 +190,7 @@ async function fetchGradescopeAssignments() {
         }
 
 		console.debug("[Background] Gradescope assignments fetched successfully");
-		browser.runtime.sendMessage({ action: "updateGradescopeStatus", status: "Updated" })
+		browser.runtime.sendMessage({ action: "updateGradescopeStatus", status: "Updated", message: "Up to date" })
 			.catch((error) => {});
 
 		// If processing is complete, update the data
@@ -201,7 +201,7 @@ async function fetchGradescopeAssignments() {
 
 	} catch (error) {
 		console.warn("[Background] Error fetching Gradescope assignments:", error);
-		browser.runtime.sendMessage({ action: "updateGradescopeStatus", status: "Error" })
+		browser.runtime.sendMessage({ action: "updateGradescopeStatus", status: "Error", message: error })
 			.catch((error) => {});
 	}
 }

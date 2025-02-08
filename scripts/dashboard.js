@@ -6,9 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const dashboardButton = document.getElementById("dashboard");
 	let oldAssignmentCount = 0;
 
-    const canvasStatus = document.getElementById("canvas-status");
-    const gradescopeStatus = document.getElementById("gradescope-status");
-
 	// Build the assignments
 	function displayAssignments(groupedAssignments, container) {
 		container.innerHTML = "";
@@ -159,12 +156,44 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    const canvasStatus = document.getElementById("canvas-status");
+    const gradescopeStatus = document.getElementById("gradescope-status");
+
+	// Set initial status messages
+	initialStatus(canvasStatus, "canvasAssignments");
+	initialStatus(gradescopeStatus, "gradescopeAssignments");
+	async function initialStatus(statusElement, storageLocation) {
+		const assignments = await browser.storage.local.get(storageLocation);
+		if (assignments[storageLocation].lastSuccessfulFetch) {
+			updateStatus(statusElement, {status: "Updated", message: `Updated ${assignments[storageLocation].lastSuccessfulFetch}`});
+		} else {
+			updateStatus(statusElement, {status: "Question", message: "Requires refreshing"});
+		}
+	}
+
+	// Update status (Refreshing/Updated/Error)
+	function updateStatus(statusElement, message) {
+		// Add a tooltip to the icon
+		if (message.message) {
+			statusElement.title = message.message;
+		}
+	
+		// Update the status icon
+		statusElement.className = "";
+		statusElement.classList.add("fa-solid");
+		if (message.status === "Refresh") { statusElement.classList.add("fa-ellipsis"); }
+		else if (message.status === "Updated") { statusElement.classList.add("fa-check"); }
+		else if (message.status === "Error") { statusElement.classList.add("fa-triangle-exclamation"); }
+		else { statusElement.classList.add("fa-question"); }
+	}
+
+	// Get status messages
 	browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		if (message.action === "updateCanvasStatus" && message.status) {
-			canvasStatus.textContent = message.status;
+			updateStatus(canvasStatus, message);
 		}
 		if (message.action === "updateGradescopeStatus" && message.status) {
-			gradescopeStatus.textContent = message.status;
+			updateStatus(gradescopeStatus, message);
 		}
 	});
 });
