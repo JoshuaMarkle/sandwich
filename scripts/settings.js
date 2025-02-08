@@ -1,4 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
+	// Tab System
+	const tabClasses = document.getElementById("tab-classes");
+	const tabIntegration = document.getElementById("tab-integration");
+	const classesContent = document.getElementById("classes");
+	const integrationsContent = document.getElementById("integrations");
+	tabClasses.addEventListener("click", function () { showTab("classes"); });
+	tabIntegration.addEventListener("click", function () { showTab("integrations"); });
+    showTab("integrations");
+
+	// Show a tab
+	function showTab(tab) {
+		if (tab === "classes") {
+			classesContent.style.display = "block";
+			integrationsContent.style.display = "none";
+			tabClasses.classList.add("active");
+			tabIntegration.classList.remove("active");
+		} else {
+			classesContent.style.display = "none";
+			integrationsContent.style.display = "block";
+			tabClasses.classList.remove("active");
+			tabIntegration.classList.add("active");
+		}
+	}
+
 	// Render Classes
 	function renderClasses() {
 		const classesList = document.getElementById("classes-list");
@@ -177,53 +201,40 @@ document.addEventListener("DOMContentLoaded", () => {
 	browser.storage.local.get("canvasAccessToken")
 		.then((result) => {
 			if (result.canvasAccessToken) {
-				document.getElementById("canvas-access-token-indicator").textContent = "Found";
+				document.getElementById("canvas-access-token-indicator").textContent = result.canvasAccessToken;
 			}
 		})
 
 	// Update Canvas Access Token
-	const updateTokenBtn = document.getElementById("update-access-token");
-	updateTokenBtn.addEventListener("click", () => {
-		const tokenInput = document.getElementById("input-canvas");
-		const linkInput = document.getElementById("input-canvas");
-		const token = tokenInput.value.trim();
-		if (!token) {
-			alert("Please enter an access token");
-			return;
-		}
-		// Save the token and update the indicator.
-		browser.storage.local
-			.set({ canvasAccessToken: token })
-			.then(() => {
-				// Update the indicator and last update time.
-				document.getElementById("canvas-access-token-indicator").textContent = "Found";
-				const now = new Date().toLocaleDateString();
-				document.getElementById("canvas-last-update").textContent = now;
-				return
-			})
-			.catch(console.error);
-	});
+	// const updateTokenBtn = document.getElementById("update-access-token");
+	// updateTokenBtn.addEventListener("click", () => {
+	// 	const tokenInput = document.getElementById("input-canvas");
+	// 	const linkInput = document.getElementById("input-canvas");
+	// 	const token = tokenInput.value.trim();
+	// 	if (!token) {
+	// 		alert("Please enter an access token");
+	// 		return;
+	// 	}
+	// 	// Save the token and update the indicator.
+	// 	browser.storage.local
+	// 		.set({ canvasAccessToken: token })
+	// 		.then(() => {
+	// 			// Update the indicator and last update time.
+	// 			document.getElementById("canvas-access-token-indicator").textContent = "Found";
+	// 			const now = new Date().toLocaleDateString();
+	// 			document.getElementById("canvas-last-update").textContent = now;
+	// 			return
+	// 		})
+	// 		.catch(console.error);
+	// });
 
-	// Import/Export buttons
+	// Export buttons + function
 	const exportBtn = document.getElementById("export-classes");
-	if (exportBtn) {
-		exportBtn.addEventListener("click", exportClasses);
-	}
-	const importInput = document.getElementById("import-file");
-	if (importInput) {
-		importInput.addEventListener("change", event => {
-			const file = event.target.files[0];
-			if (file) {
-				importClasses(file);
-			}
-		});
-	}
-
-	// Export
+	if (exportBtn) { exportBtn.addEventListener("click", exportClasses); }
 	function exportClasses() {
 		browser.storage.local.get("classes").then(result => {
 			const classesData = result.classes || [];
-			const dataStr = JSON.stringify(classesData, null, 2); // pretty-print with indentation
+			const dataStr = JSON.stringify(classesData, null, 2); // Pretty print
 			const blob = new Blob([dataStr], { type: "application/json" });
 			const url = URL.createObjectURL(blob);
 
@@ -242,7 +253,46 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 	}
 
-	// Import
+	// Import box (drag and drop + browse)
+	const importBox = document.getElementById("import-box");
+	const importInput = document.getElementById("import-file");
+	if (importBox) {
+		importBox.addEventListener("dragover", (event) => {
+			event.preventDefault();
+			importBox.style.borderColor = "var(--blue)";
+		});
+
+		importBox.addEventListener("dragleave", () => {
+			importBox.style.borderColor = "var(--border)";
+		});
+
+		importBox.addEventListener("drop", (event) => {
+			event.preventDefault();
+			importBox.style.borderColor = "var(--border)";
+
+			const file = event.dataTransfer.files[0];
+			if (file && file.type === "application/json") {
+				importClasses(file);
+			} else {
+				alert("Please drop a valid JSON file.");
+			}
+		});
+
+		importBox.addEventListener("click", () => {
+			importInput.click();
+		});
+
+		if (importInput) {
+			importInput.addEventListener("change", (event) => {
+				const file = event.target.files[0];
+				if (file) {
+					importClasses(file);
+				}
+			});
+		}
+	}
+
+	// Import classes function
 	function importClasses(file) {
 		const reader = new FileReader();
 		reader.onload = event => {

@@ -17,66 +17,129 @@
 				<a href="dashboard.html"><button><i class="fa fa-home"></i> Back</button></a>
 			</div>
 		</header>
+		<div class="tab-bar">
+			<button id="tab-classes">Classes</button>
+			<button id="tab-integration">Integrations</button>
+		</div>
 		<div class="content">
-			<div class="content-classes">
-				<h2><i class="fa fa-book"></i> Classes</h2>
-				<div class="breakline"></div>
-				<div class="class" id="new-class-block">
-					<button class="add" id="add-class">
-						<i class="fa fa-plus"></i>
-					</button>
-					<div>
-						<h3>New Class</h3>
-						<table>
-							<tr>
-								<th>Name</th>
-								<th><input type="text" id="new-class-name" placeholder="Class Name"/></th>
-							</tr>
-							<tr>
-								<th>Nickname</th>
-								<th><input type="text" id="new-class-nickname" placeholder="Class Nickname" /></th>
-							</tr>
-						</table>
+			<!-- Classes Tab -->
+			<div id="classes">
+				<div class="row">
+					<div style="flex: 1" class="column">
+						<h2>Classes</h2>
+						<p>Edit the viewable classes</p>
+						<div style="margin-top: auto;">
+							<button id="export-classes"><i class="fa fa-download"></i> Export</button>
+						</div>
+					</div>
+					<div style="flex: 4">
+						<div class="class" id="new-class-block">
+							<button class="add" id="add-class">
+								<i class="fa fa-plus"></i>
+							</button>
+							<div class="class-content">
+								<h3>New Class</h3>
+								<p>Create a new class to add to the class list</p>
+								<div class="row">
+									<div style="flex: 1">
+										<h4>Name</h4>
+										<input type="text" id="new-class-name" placeholder="Class Name"></th>
+									</div>
+									<div style="flex: 1">
+										<h4>Nickname</h4>
+										<input type="text" id="new-class-nickname" placeholder="Class Nickname"></th>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- TEST CLASS -->
+						<div class="class" id="class-0" data-class-id="0">
+							<button class="delete" id="delete-class-0"><i class="fa fa-times"></i></button>
+							<div class="class-content">
+								<h3 id="class-short-name-0">TEST</h3>
+								<p id="class-full-name-0">Advanced Testing Techniques</p>
+								<div class="row">
+									<div style="flex: 1">
+										<h4>Name</h4>
+										<input type="text" id="canvas-id-0" data-class-id="0" class="class-edit" placeholder="Advanced Testing Techniques"></th>
+										<h4>Canvas</h4>
+										<input type="text" id="canvas-id-0" data-class-id="0" class="class-edit" placeholder="Canvas Class ID"></th>
+										<h4>Class Color</h4>
+										<div class="row" style="gap: 5px">
+											<div class="color-box">
+												<div style="background: var(--blue)"></div>
+											</div>
+											<input type="text" id="color-0" placeholder="#00AAFF">
+										</div>
+									</div>
+									<div style="flex: 1">
+										<h4>Nickname</h4>
+										<input type="text" id="canvas-id-0" data-class-id="0" class="class-edit" placeholder="TEST"></th>
+										<h4>Gradescope</h4>
+										<input type="text" id="canvas-id-0" data-class-id="0" class="class-edit" placeholder="Gradescope Class ID"></th>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div id="classes-list"></div>
 					</div>
 				</div>
-				<div id="classes-list"></div>
-				<h2><i class="fa fa-file-import"></i> Import/Export</h2>
 				<div class="breakline"></div>
 				<div class="row">
-					<button id="export-classes" class="settings-button">Export Classes</button>
-					<input type="file" id="import-file" accept="application/json" />
+					<div style="flex: 1">
+						<h2>Import</h2>
+						<p>Reload saved classes</p>
+					</div>
+					<div style="flex: 4">
+						<div id="import-box" class="import-box">
+							<p>Drop a JSON file or</p>
+							<label for="import-file" class="save-button">
+								<i class="fa fa-file-import"></i> Browse Files
+							</label>
+							<input type="file" id="import-file" accept="application/json" hidden />
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="content-integrations">
-				<h2><i class="fa fa-plug"></i> Integrations</h2>
+			<!-- Integration Tab -->
+			<div id="integrations">
+				<div class="row">
+					<div style="flex: 1" class="column">
+						<h3>Canvas</h3>
+						<p>Canvas settings</p>
+						<div style="margin-top: auto;">
+							<button id="save-integrations" class="save-button" disabled><i class="fa-solid fa-floppy-disk"></i>Update</button>
+						</div>
+					</div>
+					<div style="flex: 4">
+						<h4>Source Link</h4>
+						<!-- <div class="row"> -->
+						<!-- 	<input type="number" id="canvas-link-num" min="0" max="9"/> -->
+						<!-- 	<div id="source-links" style="flex: 1"> -->
+						<!-- 		<input type="text" id="input-canvas-link-2" name="at" placeholder="https://canvas.instructure.com/"/> -->
+						<!-- 	</div> -->
+						<!-- </div> -->
+						<input type="text" id="input-canvas-link-2" name="at" placeholder="https://canvas.instructure.com/">
+						<h4>Access Token</h4>
+						<input type="text" id="input-canvas" name="at" placeholder="Paste Token">
+					</div>
+				</div>
 				<div class="breakline"></div>
-				<h3>Canvas</h3>
-				<table>
-					<tr>
-						<th>Last Update</th>
-						<th id="canvas-last-update">01/12/2025</th>
-					</tr>
-					<!-- <tr> -->
-					<!-- 	<th>Canvas Link</th> -->
-					<!-- 	<th><input type="text" id="input-canvas-link" name="at" placeholder="https://canvas.instructure.com/"/></th> -->
-					<!-- </tr> -->
-					<tr>
-						<th>Access Token</th>
-						<th id="canvas-access-token-indicator">Not Found</th>
-					</tr>
-					<tr>
-						<th>Update Token</th>
-						<th><input type="text" id="input-canvas" name="at" placeholder="Paste Token..."/></th>
-					</tr>
-				</table>
-				<button id="update-access-token">Update Access Token</button>
-				<h3>Gradescope</h3>
-				<table>
-					<tr>
-						<th>Last Update</th>
-						<th id="gradescope-last-update">Not Found</th>
-					</tr>
-				</table>
+				<div class="row">
+					<div style="flex: 1" class="column">
+						<h3>Gradescope</h3>
+						<p>Gradescope settings</p>
+						<div style="margin-top: auto;">
+							<button id="save-integrations" class="save-button" disabled><i class="fa-solid fa-floppy-disk"></i>Update</button>
+						</div>
+					</div>
+					<div style="flex: 4">
+						<h4>Source Link</h4>
+						<input type="text" id="input-canvas-link-2" name="at" placeholder="https://www.gradescope.com/">
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="../lib/browser-polyfill.js"></script>
