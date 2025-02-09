@@ -1,14 +1,11 @@
 {
 	"manifest_version": 3,
 	"name": "Sandwich",
-	"description": "Sandwich assignments from many sources",
+	"description": "An assignment management tool that 'sandwiches' assignments into a single calendar",
 	"version": "1.0",
 	"permissions": [
 		"storage",
 		"alarms",
-		"activeTab",
-		"tabs",
-		"scripting",
 		"webRequest"
 	],
 	"host_permissions": [
