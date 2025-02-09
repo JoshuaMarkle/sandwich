@@ -4,11 +4,12 @@
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>Sandwich | Settings</title>
+		<script src="../scripts/theme-loader.js"></script>
 		<link rel="stylesheet" href="main.css"/>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
 		<link rel="preconnect" href="https://fonts.googleapis.com"/>
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 		<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
 	</head>
 	<body>
 		<header>
@@ -20,6 +21,7 @@
 		<div class="tab-bar">
 			<button id="tab-classes">Classes</button>
 			<button id="tab-integration">Integrations</button>
+			<button id="tab-misc">Misc</button>
 		</div>
 		<div class="content">
 			<!-- Classes Tab -->
@@ -27,7 +29,7 @@
 				<div class="row">
 					<div style="flex: 1" class="column">
 						<h2>Classes</h2>
-						<p>Edit the viewable classes</p>
+						<p>Edit loadable classes</p>
 						<div style="margin-top: auto;">
 							<button id="export-classes"><i class="fa fa-download"></i> Export</button>
 							<button id="update-classes" class="save-button" disabled><i class="fa fa-save"></i> Save</button>
@@ -80,20 +82,14 @@
 						<h3>Canvas</h3>
 						<p>Canvas settings</p>
 						<div style="margin-top: auto;">
-							<button id="save-integrations" class="save-button" disabled><i class="fa-solid fa-floppy-disk"></i>Update</button>
+							<button class="save-button save-integrations" disabled><i class="fa-solid fa-floppy-disk"></i> Save</button>
 						</div>
 					</div>
 					<div style="flex: 4">
 						<h4>Source Link</h4>
-						<!-- <div class="row"> -->
-						<!-- 	<input type="number" id="canvas-link-num" min="0" max="9"/> -->
-						<!-- 	<div id="source-links" style="flex: 1"> -->
-						<!-- 		<input type="text" id="input-canvas-link-2" name="at" placeholder="https://canvas.instructure.com/"/> -->
-						<!-- 	</div> -->
-						<!-- </div> -->
-						<input type="text" id="input-canvas-link-2" name="at" placeholder="https://canvas.instructure.com/">
+						<input type="text" id="input-canvas-link" placeholder="https://canvas.instructure.com/">
 						<h4>Access Token</h4>
-						<input type="text" id="input-canvas" name="at" placeholder="Paste Token">
+						<input type="text" id="input-canvas-token" placeholder="Paste Token">
 					</div>
 				</div>
 				<div class="breakline"></div>
@@ -102,17 +98,36 @@
 						<h3>Gradescope</h3>
 						<p>Gradescope settings</p>
 						<div style="margin-top: auto;">
-							<button id="save-integrations" class="save-button" disabled><i class="fa-solid fa-floppy-disk"></i>Update</button>
+							<button class="save-button save-integrations" disabled><i class="fa-solid fa-floppy-disk"></i> Save</button>
 						</div>
 					</div>
 					<div style="flex: 4">
 						<h4>Source Link</h4>
-						<input type="text" id="input-canvas-link-2" name="at" placeholder="https://www.gradescope.com/">
+						<input type="text" id="input-gradescope-link" placeholder="https://www.gradescope.com/">
+					</div>
+				</div>
+			</div>
+			<!-- Classes Tab -->
+			<div id="misc">
+				<div class="row">
+					<div style="flex: 1">
+						<h3>Display</h3>
+						<p>Display settings</p>
+					</div>
+					<div style="flex: 4">
+						<h3>Theme</h3>
+						<p>Choose between system, light, or dark modes</p>
+						<select id="theme">
+							<option value="system">System</option>
+							<option value="light">Light</option>
+							<option value="dark">Dark</option>
+						</select>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script src="../lib/browser-polyfill.js"></script>
 		<script src="../scripts/settings.js"></script>
+		<script src="../scripts/theme.js"></script>
 	</body>
 </html>

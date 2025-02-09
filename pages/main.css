@@ -17,21 +17,39 @@
 	--border: #d1d1db;
     --fade: #0001;
 
-	--accent: #1d9d74;
-	--fg-accent: #b0ddce;
-	--bg-accent: #1fa67a;
-	--border-accent: #1b926c;
-
-	--red: #f3164e;
-	--orange: #ff7d52;
-	--yellow: #ffc233;
-	--green: #2dca72;
-    --blue: #00acff;
+	--red: #ff4949;
+	--orange: #ffa100;
+	--yellow: #ffcc3d;
+	--green: #13ce66;
+	--blue: #2d8eff;
 	--purple: #7047eb;
 	--pink: #f75fde;
 	--bg-red: #fff2ee;
 	--bg-green: #eefbf4;
 	--bg-blue: #dbf3ff;
+}
+
+.dark-mode {
+    --black: #ffffff;
+    --bg: #000000;
+    --bg-2: #121217;
+    --bg-3: #282833;
+    --bg-4: #3f3f50;
+    --bg-5: #55556d;
+    --bg-6: #6c6c89;
+    --bg-7: #8a8aa3;
+    --bg-8: #a9a9bc;
+    --bg-9: #d1d1db;
+    --bg-10: #ebebef;
+    --bg-11: #f7f7f8;
+    --fg: #f7f7f8;
+	--fg-2: #d1d1db;
+    --fg-3: #8a8aa3;
+	--border: #3f3f50;
+
+	--bg-red: #3b0a0a;
+	--bg-green: #0a3b1a;
+	--bg-blue: #0a2b3b;
 }
 
 /* Generic */
@@ -81,11 +99,17 @@ button {
     border-radius: 5px;
 }
 
+button:hover {
+	background: var(--bg-3);
+}
+
 button.assignment-button {
+	color: var(--fg-3);
+	font-weight: 400;
 	justify-content: center;
 	width: 100%;
 	border: none;
-	color: var(--fg-3)
+	padding: 0;
 }
 
 button.assignment-button:hover {
@@ -101,6 +125,7 @@ input {
     border: 1px solid var(--border);
 	border-radius: 5px;
 }
+input::placeholder { color: var(--fg-3); }
 
 input:focus {
 	border-color: var(--blue);
@@ -109,6 +134,14 @@ input:focus {
 input[type=number] {
 	height: 1rem;
 	width: 2.5rem;
+}
+
+select {
+	color: var(--fg);
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 5px;
+	padding: 10px;
 }
 
 /* Header */
@@ -142,6 +175,7 @@ header {
 .tab-bar button.active,
 .tab-bar button:hover {
 	color: var(--fg);
+	background: none;
 }
 
 .tab-bar button.active {
@@ -268,16 +302,24 @@ header {
 	transition: background 0.1s;
 }
 
+#assignments h3 { margin: 1rem 0 0.5rem 0; }
+
 .assignment .color {
+	background-size: 1rem 1rem;
+	background-image:
+		linear-gradient(to right, var(--fade) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--fade) 1px, transparent 1px);
 	color: var(--fg);
 	border-radius: 5px 0 0 5px;
 	text-align: center;
 }
 
 .assignment .color h4 {
+	font-weight: 500;
 	background: var(--bg);
 	min-width: 150px;
-	/* margin: 20px 0 20px 0; */
+	margin: 17px 0 17px 0;
+	padding: 3px 0;
 }
 
 .assignment .group {
@@ -389,13 +431,13 @@ i.incomplete,
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	border: 1px solid var(--accent);
+	border: 1px solid var(--green);
 	border-radius: 5px;
 	transition: 0.2s;
 }
 
 i.complete,
-.add i { color: var(--accent); }
+.add i { color: var(--green); }
 .add:hover { transform: scale(0.9, 0.9); }
 
 .color-box {
@@ -444,7 +486,7 @@ i.complete,
 }
 
 .save-button {
-    color: white;
+    color: var(--fg);
     background: var(--blue);
 	border-color: var(--blue);
     font-size: 14px;
@@ -456,7 +498,7 @@ i.complete,
 }
 
 .save-button i {
-	color: var(--bg);
+	color: var(--fg);
     margin-right: 5px;
 }
 

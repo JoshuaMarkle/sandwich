@@ -9,12 +9,6 @@ Revamp the settings page; add tabs
     - Class scanner
     - Automatically scan for possible classes from the given integration links
         - Add tabs for Classes, Integrations: Canvas and Gradescope
-- Integrations
-    - Gradescope
-        - Gradescope Custom Link (Array)
-    - Canvas
-        - Canvas Custom Link (Array)
-        - API Key validation
 - Misc
     - Add old assignment expire date
     - Themes
@@ -23,8 +17,6 @@ Revamp the settings page; add tabs
 
 ## Dashboard
 
-- Better fetch statuses
-    - Indicate fetch/update/complete/error
 - Different Assignment Views
     - Calendar View
     - Card View

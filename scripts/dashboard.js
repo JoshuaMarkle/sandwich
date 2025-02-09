@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				// Create the "color" header for the class.
 				const colorDiv = document.createElement("div");
 				colorDiv.classList.add("color");
-				colorDiv.style.background = classGroup.color ? classGroup.color : "var(--red)";
+				colorDiv.style.backgroundColor = classGroup.color ? classGroup.color : "var(--red)";
 				colorDiv.style.border = `1px solid ${classGroup.color ? classGroup.color : "var(--red)"}`;
 				const classHeader = document.createElement("h4");
 				classHeader.textContent = classGroup["class"];
@@ -89,11 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
 					a.href = assignment.link;
 					a.target = "_blank";
 					a.innerHTML = `
-						<strong>${
-							assignment.complete
-							? '<i class="fa fa-check complete"></i> '
-							: '<i class="fa fa-times incomplete"></i> '
-							}${assignment.name}</strong><br>
+						${ assignment.complete 
+						? '<i class="fa fa-check complete"></i> ' 
+						: '<i class="fa fa-times incomplete"></i> '
+						}${assignment.name}<br>
 						<div class="info">
 							<p>Due: ${assignment.due_date}</p>
 							<p>${assignment.source || ""}</p>

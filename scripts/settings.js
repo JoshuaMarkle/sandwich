@@ -2,10 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Tab System
 	const tabClasses = document.getElementById("tab-classes");
 	const tabIntegration = document.getElementById("tab-integration");
+	const tabMisc = document.getElementById("tab-misc");
 	const classesContent = document.getElementById("classes");
 	const integrationsContent = document.getElementById("integrations");
+	const miscContent = document.getElementById("misc");
 	tabClasses.addEventListener("click", function () { showTab("classes"); });
 	tabIntegration.addEventListener("click", function () { showTab("integrations"); });
+	tabMisc.addEventListener("click", function () { showTab("misc"); });
     showTab("classes");
 
 	// Show a tab
@@ -13,13 +16,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (tab === "classes") {
 			classesContent.style.display = "block";
 			integrationsContent.style.display = "none";
+			miscContent.style.display = "none";
 			tabClasses.classList.add("active");
 			tabIntegration.classList.remove("active");
-		} else {
+			tabMisc.classList.remove("active");
+		} else if (tab === "integrations") {
 			classesContent.style.display = "none";
 			integrationsContent.style.display = "block";
+			miscContent.style.display = "none";
 			tabClasses.classList.remove("active");
 			tabIntegration.classList.add("active");
+			tabMisc.classList.remove("active");
+		} else {
+			classesContent.style.display = "none";
+			integrationsContent.style.display = "none";
+			miscContent.style.display = "block";
+			tabClasses.classList.remove("active");
+			tabIntegration.classList.remove("active");
+			tabMisc.classList.add("active");
 		}
 	}
 
@@ -376,4 +390,55 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		}
 	});
+
+	// Integrations
+	const canvasLinkInput = document.getElementById("input-canvas-link");
+	const canvasTokenInput = document.getElementById("input-canvas-token");
+	const gradescopeLinkInput = document.getElementById("input-gradescope-link");
+	const saveButtons = document.querySelectorAll(".save-integrations");
+
+	// Load integration values
+    async function loadIntegrationSettings() {
+        const storedData = await browser.storage.local.get(["canvasLink", "canvasAccessToken", "gradescopeLink"]);
+
+        if (storedData.canvasLink) canvasLinkInput.value = storedData.canvasLink;
+        if (storedData.canvasAccessToken) canvasTokenInput.value = storedData.canvasAccessToken;
+        if (storedData.gradescopeLink) gradescopeLinkInput.value = storedData.gradescopeLink;
+    }
+
+    // Enable update buttons when an input is changed
+    function enableIntegrationSaveButtons() {
+        saveButtons.forEach(button => button.removeAttribute("disabled"));
+    }
+
+	// Listen for input changes and enable the update button
+	[canvasLinkInput, canvasTokenInput, gradescopeLinkInput].forEach(input => {
+		input.addEventListener("input", enableIntegrationSaveButtons);
+	});
+
+	// Function to save integration settings
+	async function saveIntegrationSettings() {
+		const canvasLink = canvasLinkInput.value.trim();
+		const canvasAccessToken = canvasTokenInput.value.trim();
+		const gradescopeLink = gradescopeLinkInput.value.trim();
+
+		await browser.storage.local.set({
+			canvasLink,
+			canvasAccessToken,
+			gradescopeLink
+		});
+
+		// Disable save buttons after saving
+		saveButtons.forEach(button => button.setAttribute("disabled", "true"));
+
+		alert("Integration settings updated successfully!");
+	}
+
+	// Attach click event listeners to both update buttons
+	saveButtons.forEach(button => {
+		button.addEventListener("click", saveIntegrationSettings);
+	});
+
+	// Load stored settings on startup
+	loadIntegrationSettings();
 });

@@ -72,7 +72,7 @@ async function fetchCanvasAssignments() {
         }
 
         console.debug("[Background] Canvas assignments fetched successfully.");
-		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Done", message: "Up to date" })
+		browser.runtime.sendMessage({ action: "updateCanvasStatus", status: "Updated", message: "Up to date" })
 			.catch((error) => {});
 
 		// If processing is complete, update the data
