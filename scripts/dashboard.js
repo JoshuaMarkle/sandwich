@@ -88,16 +88,24 @@ document.addEventListener("DOMContentLoaded", function () {
 					a.classList.add("item");
 					a.href = assignment.link;
 					a.target = "_blank";
-					a.innerHTML = `
-						${ assignment.complete 
-						? '<i class="fa fa-check complete"></i> ' 
-						: '<i class="fa fa-times incomplete"></i> '
-						}${assignment.name}<br>
-						<div class="info">
-							<p>Due: ${assignment.due_date}</p>
-							<p>${assignment.source || ""}</p>
-						</div>
-					`;
+
+					const icon = document.createElement("i");
+					icon.classList.add("fa", assignment.complete ? "fa-check" : "fa-times", assignment.complete ? "complete" : "incomplete");
+					const assignmentName = document.createTextNode(` ${assignment.name}`);
+					const infoDiv = document.createElement("div");
+					infoDiv.classList.add("info");
+					const dueDateP = document.createElement("p");
+					dueDateP.textContent = `Due: ${assignment.due_date}`;
+					const sourceP = document.createElement("p");
+					sourceP.textContent = assignment.source || "";
+					infoDiv.appendChild(dueDateP);
+					infoDiv.appendChild(sourceP);
+
+					a.appendChild(icon);
+					a.appendChild(assignmentName);
+					a.appendChild(document.createElement("br"));
+					a.appendChild(infoDiv);
+
 					groupDiv.appendChild(a);
 				});
 

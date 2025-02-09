@@ -37,10 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
             a.href = assignment.link;
             a.target = "_blank";
             a.classList.add("assignment");
-            a.innerHTML = `
-                <strong>${assignment.complete ? "✔ " : "❌ "}${assignment.name}</strong><br>
-                <br>Due: ${assignment.due_date}<br>
-            `;
+
+			const strong = document.createElement("strong");
+			strong.innerText = `${assignment.complete ? "✔ " : "❌ "}${assignment.name}`
+			const assignmentDueDate = document.createTextNode(` ${assignment.due_date}`);
+
+			a.append(strong);
+			a.append(assignmentDueDate);
             container.appendChild(a);
         });
     }
