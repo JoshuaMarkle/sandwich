@@ -89,6 +89,10 @@ h2 i { font-size: 1.25rem; }
 button i { font-size: 0.7rem; }
 
 button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 0.3rem;
     background: none;
     color: var(--fg);
     padding: 8px 10px;
@@ -152,6 +156,12 @@ header {
 	justify-content: space-between;
 	align-items: center;
 	padding: 50px 200px 2rem 200px;
+}
+
+.header-buttons {
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
 }
 
 .tab-bar {
@@ -515,4 +525,9 @@ i.complete,
 .save-button[disabled],
 .save-button[disabled] i {
 	color: var(--fg-3);
+}
+
+.fa-heart { 
+	font-size: 1rem;
+	color: var(--pink); 
 }
